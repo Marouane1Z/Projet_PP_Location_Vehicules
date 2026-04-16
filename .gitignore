@@ -1,0 +1,16 @@
+# Spring Boot
+autodoc/target/
+autodoc/src/main/resources/application-local.properties
+autodoc/.env
+
+# IntelliJ
+.idea/
+*.iml
+*.iws
+
+# Maven
+autodoc/.mvn/wrapper/maven-wrapper.jar
+
+# OS
+.DS_Store
+Thumbs.db
