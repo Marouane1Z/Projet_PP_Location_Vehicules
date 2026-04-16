@@ -19,32 +19,30 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class user {
+public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
 
     @Column(nullable = false)
-    String firstname;
+    private String firstname;
     @Column(nullable = false)
-    String lastname;
+    private String lastname;
 
-    @Column(nullable = false)
-    int age;
 
     @Column(nullable = false, unique = true)
-    String email;
+    private String email;
 
     @Column(nullable = false)
     private String password;
 
-    String phone;
+    private String phone;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    userRole role ;
+    private userRole role ;
 
-    String address;
+    private String address;
 
     private Boolean actif = true;
 
