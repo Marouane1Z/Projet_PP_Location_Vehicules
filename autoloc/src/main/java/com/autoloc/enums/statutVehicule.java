@@ -5,7 +5,7 @@ package com.autoloc.enums;
  * Défini dans le diagramme de classes (from Vehicule).
  */
 
-public enum StatutVehicule {
+public enum statutVehicule {
     DISPONIBLE,
     LOUE,
     EN_MAINTENANCE,
