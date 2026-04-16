@@ -1,4 +1,4 @@
 package com.autoloc.enums;
 
-public enum Role {
+public enum userRole {
 }
