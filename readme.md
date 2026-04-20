@@ -8,7 +8,6 @@
   <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white" />
   <img src="https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
   <img src="https://img.shields.io/badge/JWT-Security-black?style=for-the-badge&logo=jsonwebtokens" />
-  <img src="https://img.shields.io/badge/React-Vite-61DAFB?style=for-the-badge&logo=react" />
 </p>
 
 <h1 align="center">🚗 AutoLoc — Système de Gestion de Location de Véhicules</h1>
@@ -19,20 +18,20 @@
 
 Ce projet a pour objectif de concevoir et développer une **application web complète basée sur une architecture REST API**, dédiée à la gestion d'une entreprise de location de voitures et de camions.
 
-L'application expose un ensemble d'**endpoints REST sécurisés par JWT**, consommés par un frontend React, et déployée dans des **conteneurs Docker**. Elle couvre l'intégralité du cycle métier de la location : de l'inscription du client jusqu'à la clôture du contrat, en passant par la validation des réservations, le traitement des paiements, la génération de factures PDF et le suivi de la maintenance du parc automobile.
+L'application expose un ensemble d'**endpoints REST sécurisés par JWT**, consommés par un frontend Angular, et déployée dans des **conteneurs Docker**. Elle couvre l'intégralité du cycle métier de la location : de l'inscription du client jusqu'à la clôture du contrat, en passant par la validation des réservations, le traitement des paiements, la génération de factures PDF et le suivi de la maintenance du parc automobile.
 
 ---
 
 ## Description
 
-**AutoLoc** est une plateforme de gestion interne et client pour une entreprise de location de véhicules. Elle repose sur une architecture **Spring Boot en couches** (Controller → Service → Repository) côté backend, et une interface **React** côté frontend.
+**AutoLoc** est une plateforme de gestion interne et client pour une entreprise de location de véhicules. Elle repose sur une architecture **Spring Boot en couches** (Controller → Service → Repository) côté backend, et une interface **Angluar** côté frontend.
 
 Le système distingue quatre types d'utilisateurs aux responsabilités bien définies :
 
 - Un **client** peut parcourir le catalogue, effectuer des réservations et régler ses paiements en ligne.
 - Un **administrateur** gère le parc de véhicules, valide ou refuse les réservations, enregistre les retours et supervise les paiements.
 - Un **super administrateur** dispose des mêmes droits que l'admin, avec en plus la capacité de créer et gérer d'autres comptes administrateurs.
-- Un **mécanicien** reçoit et traite les ordres de maintenance assignés par l'admin.
+- Un **technicien** reçoit et traite les ordres de maintenance assignés par l'admin.
 
 L'ensemble des données est stocké dans une base **MySQL** dont le schéma est versionné avec **Flyway**, et le projet est entièrement conteneurisé avec **Docker Compose**.
 
@@ -42,9 +41,9 @@ L'ensemble des données est stocké dans une base **MySQL** dont le schéma est 
 
 | Membre |
 |---|---|---|
-| Prénom Nom | 
-| Prénom Nom | 
-| Prénom Nom |
+| Rayane HARKATI | 
+| Marouane Zaid | 
+| Saad Mimouni |
 
 ---
 
