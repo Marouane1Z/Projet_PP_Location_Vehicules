@@ -1,6 +1,5 @@
 package com.autoloc.dto;
 
-<<<<<<< HEAD
 import com.autoloc.model.PermisConduire;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -26,7 +25,4 @@ public class RegisterRequest {
     private String phone;
     private String address;
 }
-=======
-public class RegisterRequest {
-}
->>>>>>> develop
+

@@ -1,6 +1,5 @@
 package com.autoloc.dto;
 
-<<<<<<< HEAD
 import com.autoloc.enums.userRole;
 import lombok.*;
 
@@ -11,7 +10,4 @@ public class JwtResponse {
     private userRole role;
     private String email;
 }
-=======
-public class JwtResponse {
-}
->>>>>>> develop
+

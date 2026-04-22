@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-package com.autoloc.dto.paiement;
+package com.autoloc.dto;
 
 import com.autoloc.enums.modePaiement;
 import jakarta.validation.constraints.*;
@@ -17,9 +16,4 @@ public class PaiementRequest {
     @NotNull(message = "Mode de paiement obligatoire")
     private modePaiement modePaiement;
 }
-=======
-package com.autoloc.dto;
 
-public class PaiementRequest {
-}
->>>>>>> develop

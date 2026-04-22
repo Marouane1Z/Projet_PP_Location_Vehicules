@@ -1,6 +1,5 @@
 package com.autoloc.dto;
 
-<<<<<<< HEAD
 import com.autoloc.enums.modePaiement;
 import com.autoloc.enums.statutPaiement;
 import lombok.*;
@@ -16,7 +15,4 @@ public class PaiementResponse {
     private LocalDateTime datePaiement;
     private modePaiement modePaiement;
 }
-=======
-public class PaiementResponse {
-}
->>>>>>> develop
+
