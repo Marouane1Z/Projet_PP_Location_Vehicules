@@ -41,10 +41,10 @@ private final JwtUtil jwtUtil ;
 
     // Créer un compte Client
 
-    public void register(RegisterRequest request){
+    public JwtResponse register(RegisterRequest request){
         // verfifier si l'email n'existe pas deja
         if (userRepository.findByEmail(request.getEmail()).isPresent()){
-            throw new RuntimeException("Email already in use");
+            throw new RuntimeException("Email deja utilisé");
         }
         // CREER LE CLIENT
         Client client = new Client() ;
@@ -59,19 +59,31 @@ private final JwtUtil jwtUtil ;
         client.setRole(userRole.CLIENT);
 
         userRepository.save(client) ;
+        String token = jwtUtil.generateToken(client) ;
+
+        return new JwtResponse(token, client.getRole(), client.getEmail());
     }
 
 
     // Modifier profile
     public void updateProfil(Long id, UpdateProfilRequest request) {
+
         User user = userRepository.findById(id).orElseThrow(()->new RuntimeException("Utilisateur introuvable")) ;
 
         user.setFirstname(request.getFirstname());
         user.setLastname(request.getLastname());
         user.setPhone(request.getPhone());
         user.setAddress(request.getAddress());
+
         userRepository.save(user) ;
 
     }
+    // 4. CHANGER MOT DE PASSE — tout utilisateur connecté
+    public void changePassword(Long id, ChangePasswordRequest request)
 
+    // 5. CRÉER ADMIN — SuperAdmin seulement
+    public void createAdmin(RegisterRequest request)
+
+    // 6. DÉSACTIVER COMPTE — Admin seulement
+    public void desactiverCompte(Long id)
 }
