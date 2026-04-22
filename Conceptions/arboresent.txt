@@ -1,0 +1,90 @@
+src/main/java/com/autoloc/
+│
+├── config/
+│   ├── SecurityConfig.java
+│   ├── JwtConfig.java
+│   ├── DataInitializer.java
+│   └── SwaggerConfig.java
+│
+├── controller/
+│   ├── AuthController.java
+│   ├── PaiementController.java
+│   ├── VehiculeController.java
+│   ├── MaintenanceController.java
+│   ├── TechnicienController.java
+│   ├── ClientController.java
+│   └── ReservationController.java
+│
+├── service/
+│   ├── AuthService.java
+│   ├── PaiementService.java
+│   ├── NotificationService.java
+│   ├── PdfService.java
+│   ├── MailService.java
+│   ├── VehiculeService.java
+│   ├── MaintenanceService.java
+│   ├── TechnicienService.java
+│   ├── ClientService.java
+│   └── ReservationService.java
+│
+├── repository/
+│   ├── UtilisateurRepository.java
+│   ├── PaiementRepository.java
+│   ├── NotificationRepository.java
+│   ├── VehiculeRepository.java
+│   ├── MaintenanceRepository.java
+│   ├── TechnicienRepository.java
+│   ├── ClientRepository.java
+│   └── ReservationRepository.java
+│
+├── model/
+│   ├── User.java
+│   ├── Admin.java
+│   ├── SuperAdmin.java
+│   ├── Paiement.java
+│   ├── Notification.java
+│   ├── Vehicule.java
+│   ├── Voiture.java
+│   ├── Camion.java
+│   ├── Option.java
+│   ├── Technicien.java
+│   ├── OrdreMaintenance.java
+│   ├── Client.java
+│   ├── Reservation.java
+│   └── embeddable/
+│       └── PermisConduire.java
+│
+├── dto/
+│   ├── auth/ ← LoginRequest, RegisterRequest, JwtResponse
+│   ├── paiement/ ← PaiementRequest, PaiementResponse
+│   ├── vehicule/ ← VehiculeRequest, VehiculeResponse
+│   ├── maintenance/ ← MaintenanceRequest, MaintenanceResponse
+│   ├── client/ ← ClientRequest, ClientResponse
+│   └── reservation/ ← ReservationRequest, ReservationResponse
+│
+├── enums/
+│   ├── UserRole.java
+│   ├── StatutPaiement.java
+│   ├── ModePaiement.java
+│   ├── StatutVehicule.java
+│   ├── StatutMaintenance.java
+│   ├── StatutReservation.java
+│   └── CategoriePermis.java
+│
+├── exception/
+│   ├── GlobalExceptionHandler.java
+│   ├── UserNotFoundException.java
+│   ├── VehiculeNotFoundException.java
+│   ├── VehiculeIndisponibleException.java
+│   ├── ReservationNotFoundException.java
+│   └── PermisInsuffisantException.java
+│
+├── mapper/
+│   ├── PaiementMapper.java
+│   ├── VehiculeMapper.java
+│   ├── ClientMapper.java
+│   └── ReservationMapper.java
+│
+└── security/
+    ├── JwtFilter.java
+    └── UserDetailsServiceImpl.java
