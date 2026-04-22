@@ -1,5 +1,6 @@
 package com.autoloc.dto;
 
+<<<<<<< HEAD
 import lombok.*;
 import java.time.LocalDateTime;
 
@@ -12,3 +13,7 @@ public class NotificationResponse {
     private String message;
     private LocalDateTime dateEnvoi;
 }
+=======
+public class NotificationResponse {
+}
+>>>>>>> develop

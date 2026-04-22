@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.autoloc.dto.paiement;
 
 import com.autoloc.enums.modePaiement;
@@ -16,3 +17,9 @@ public class PaiementRequest {
     @NotNull(message = "Mode de paiement obligatoire")
     private modePaiement modePaiement;
 }
+=======
+package com.autoloc.dto;
+
+public class PaiementRequest {
+}
+>>>>>>> develop

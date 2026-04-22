@@ -1,5 +1,6 @@
 package com.autoloc.repository;
 
+<<<<<<< HEAD
 
 import com.autoloc.model.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,3 +13,7 @@ public interface NotificationRepository extends JpaRepository<Notification, Inte
     Optional<Notification> findByUserId(Long userId);
 }
 
+=======
+public interface NotificationRepository {
+}
+>>>>>>> develop

@@ -1,5 +1,6 @@
 package com.autoloc.dto;
 
+<<<<<<< HEAD
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -15,3 +16,7 @@ public class UpdateProfilRequest {
     private String phone;
     private String address;
 }
+=======
+public class UpdateProfilRequest {
+}
+>>>>>>> develop

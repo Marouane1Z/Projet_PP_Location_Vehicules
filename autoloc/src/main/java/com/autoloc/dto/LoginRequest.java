@@ -1,5 +1,6 @@
 package com.autoloc.dto;
 
+<<<<<<< HEAD
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -14,3 +15,7 @@ public class LoginRequest {
     private String password;
 
 }
+=======
+public class LoginRequest {
+}
+>>>>>>> develop
