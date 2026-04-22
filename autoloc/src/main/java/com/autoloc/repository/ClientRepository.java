@@ -12,6 +12,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     // Récupérer les clients où admin = true (hérité de User)
     List<Client> findByAdminTrue();
 
-    // Récupérer un client par email (hérité de User)
+    // Récupérer un client par email (hérité de User))
     Optional<Client> findByEmail(String email);
 }
