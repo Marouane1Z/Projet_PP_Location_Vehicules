@@ -1,6 +1,5 @@
 package com.autoloc.dto;
 
-<<<<<<< HEAD
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -14,7 +13,4 @@ public class ChangePasswordRequest {
     @Size(min = 6, message = "Password minimum 6 caractères")
     private String nouveauPassword;
 }
-=======
-public class ChangePasswordRequest {
-}
->>>>>>> develop
+
