@@ -1,4 +1,4 @@
-package com.autoloc.dto.technicien;
+package com.autoloc.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
