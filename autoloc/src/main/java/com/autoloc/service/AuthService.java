@@ -1,13 +1,12 @@
 package com.autoloc.service;
 
-import com.autoloc.dto.JwtResponse;
-import com.autoloc.dto.LoginRequest;
-import com.autoloc.dto.RegisterRequest;
-import com.autoloc.dto.UpdateProfilRequest;
+import com.autoloc.dto.*;
 import com.autoloc.enums.userRole;
+import com.autoloc.model.Admin;
 import com.autoloc.model.Client;
 import com.autoloc.model.User;
 import com.autoloc.repository.UserRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -78,12 +77,46 @@ private final JwtUtil jwtUtil ;
         userRepository.save(user) ;
 
     }
-    // 4. CHANGER MOT DE PASSE — tout utilisateur connecté
-    public void changePassword(Long id, ChangePasswordRequest request)
+    public void changePassword(Long id, ChangePasswordRequest request) {
 
-    // 5. CRÉER ADMIN — SuperAdmin seulement
-    public void createAdmin(RegisterRequest request)
+        // 1. Trouver l'utilisateur
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
 
-    // 6. DÉSACTIVER COMPTE — Admin seulement
-    public void desactiverCompte(Long id)
+        // 2. Vérifier l'ancien mot de passe
+        if (!passwordEncoder.matches(request.getAncienPassword(), user.getPassword())) {
+            throw new RuntimeException("Ancien mot de passe incorrect");
+        }
+
+        // 3. Vérifier que le nouveau mot de passe est différent
+        if (passwordEncoder.matches(request.getNouveauPassword(), user.getPassword())) {
+            throw new RuntimeException("Le nouveau mot de passe doit être différent");
+        }
+
+        // 4. Encoder et sauvegarder
+        user.setPassword(passwordEncoder.encode(request.getNouveauPassword()));
+        userRepository.save(user);
+    }
+
+    public void createAdmin(RegisterRequest request) {
+
+        // 1. Vérifier que l'email n'existe pas déjà
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("Email déjà utilisé");
+        }
+
+        // 2. Créer l'admin
+        Admin admin = new Admin();
+        admin.setFirstname(request.getFirstname());
+        admin.setLastname(request.getLastname());
+        admin.setEmail(request.getEmail());
+        admin.setPassword(passwordEncoder.encode(request.getPassword()));
+        admin.setPhone(request.getPhone());
+        admin.setAddress(request.getAddress());
+        admin.setRole(userRole.ADMIN);
+        admin.setActif(true);
+
+        // 3. Sauvegarder
+        userRepository.save(admin);
+    }
 }

@@ -44,11 +44,9 @@ public class Reservation {
 
     @Column(name = "date_creation", nullable = false)
     private LocalDate dateCreation;
-<<<<<<< HEAD
 
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
-=======
->>>>>>> develop
+
 }
