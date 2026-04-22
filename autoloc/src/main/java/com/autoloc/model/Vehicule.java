@@ -1,6 +1,6 @@
 package com.autoloc.model;
 
-import com.autoloc.enums.StatutVehicule;
+import com.autoloc.enums.statutVehicule;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -57,7 +57,7 @@ public abstract class Vehicule {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "statut", nullable = false)
-    private StatutVehicule statut = StatutVehicule.DISPONIBLE;
+    private statutVehicule statut = statutVehicule.DISPONIBLE;
 
     @Column(name = "image", columnDefinition = "TEXT")
     private String image;
@@ -82,49 +82,5 @@ public abstract class Vehicule {
     )
 
     private List<Option> options = new ArrayList<>();
-
-    // Timestamps techniques (non présents dans le diagramme, bonne pratique)
-    // @Column(name = "created_at", updatable = false)
-    // private LocalDateTime createdAt;
-
-    // @Column(name = "updated_at")
-    // private LocalDateTime updatedAt;
-
-    /** @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-        if (this.statut == null) {
-            this.statut = StatutVehicule.DISPONIBLE;
-        }
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
-    */
-
-
-    //les deux méthodes ci-dessous vont être déplacées vers /Services
-
-
-    /**
-     * Vérifie si le véhicule est actuellement disponible.
-     */
-
-    public boolean estDisponible() {
-        return StatutVehicule.DISPONIBLE.equals(this.statut);
-    }
-
-    /**
-     * Change le statut du véhicule.
-     *
-     * @param nouveauStatut le nouveau statut à appliquer
-     */
-
-    public void changerStatut(StatutVehicule nouveauStatut) {
-        this.statut = nouveauStatut;
-    }
 
 }
