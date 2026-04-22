@@ -71,7 +71,7 @@ public abstract class Vehicule {
     /**
      * Relation Many-to-Many avec Option.
      * Table pivot : option_vehicule (vehicule_id, option_id)
-     * Conforme au diagramme : Vehicule *──* Option
+     * Conforme au diagramme : Vehicule *──* Options
      */
 
     @ManyToMany
