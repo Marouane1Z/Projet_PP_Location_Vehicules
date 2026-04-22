@@ -1,6 +1,6 @@
 package com.autoloc.enums;
 
-public enum StatutMaintenance {
+public enum statutMaintenance {
     SIGNALE,
     EN_COURS,
     RESOLU,

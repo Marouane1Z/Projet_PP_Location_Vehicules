@@ -1,6 +1,6 @@
 package com.autoloc.model;
 
-import com.autoloc.enums.StatutMaintenance;
+import com.autoloc.enums.statutMaintenance;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -30,7 +30,7 @@ public class OrdreMaintenance {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private StatutMaintenance statut;
+    private statutMaintenance statut;
 
     @ManyToOne
     @JoinColumn(name = "vehicule_id")

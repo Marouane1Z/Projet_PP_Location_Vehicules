@@ -1,6 +1,10 @@
 package com.autoloc.model;
 
+<<<<<<< HEAD
+import com.autoloc.enums.statutVehicule;
+=======
 import com.autoloc.enums.StatutVehicule;
+>>>>>>> develop
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -57,7 +61,11 @@ public abstract class Vehicule {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "statut", nullable = false)
+<<<<<<< HEAD
+    private statutVehicule statut = statutVehicule.DISPONIBLE;
+=======
     private StatutVehicule statut = StatutVehicule.DISPONIBLE;
+>>>>>>> develop
 
     @Column(name = "image", columnDefinition = "TEXT")
     private String image;
@@ -114,7 +122,11 @@ public abstract class Vehicule {
      */
 
     public boolean estDisponible() {
+<<<<<<< HEAD
+        return statutVehicule.DISPONIBLE.equals(this.statut);
+=======
         return StatutVehicule.DISPONIBLE.equals(this.statut);
+>>>>>>> develop
     }
 
     /**
@@ -123,7 +135,11 @@ public abstract class Vehicule {
      * @param nouveauStatut le nouveau statut à appliquer
      */
 
+<<<<<<< HEAD
+    public void changerStatut(statutVehicule nouveauStatut) {
+=======
     public void changerStatut(StatutVehicule nouveauStatut) {
+>>>>>>> develop
         this.statut = nouveauStatut;
     }
 
