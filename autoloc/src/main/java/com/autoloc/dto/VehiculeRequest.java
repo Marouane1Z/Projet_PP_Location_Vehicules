@@ -1,4 +1,4 @@
-package com.autoloc.dto.vehicule;
+package com.autoloc.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.*;

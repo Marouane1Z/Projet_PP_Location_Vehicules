@@ -1,4 +1,4 @@
-package com.autoloc.dto.maintenance;
+package com.autoloc.dto;
 
 import com.autoloc.enums.StatutMaintenance;
 import lombok.*;

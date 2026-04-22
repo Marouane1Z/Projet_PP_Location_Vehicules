@@ -1,4 +1,4 @@
-package com.autoloc.dto.maintenance;
+package com.autoloc.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
