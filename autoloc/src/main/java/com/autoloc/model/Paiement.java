@@ -36,8 +36,4 @@ public class Paiement {
     @Enumerated(EnumType.STRING)
     @Column(name = "statut_paiement", nullable = false)
     private statutPaiement statutPaiement;
-
-    @OneToOne
-    @JoinColumn(name = "reservation_id", nullable = false, unique = true)
-    private Reservation reservation;
 }
