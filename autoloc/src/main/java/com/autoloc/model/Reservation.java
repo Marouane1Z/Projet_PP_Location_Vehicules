@@ -21,7 +21,7 @@ public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    private Long id;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "date_debut", nullable = false)

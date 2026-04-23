@@ -1,7 +1,8 @@
 package com.autoloc.dto;
 
+import com.autoloc.enums.categoriePermis;
+import com.autoloc.enums.paysEmission;
 import lombok.*;
-
 import java.time.LocalDate;
 
 @Getter
@@ -10,7 +11,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class ClientRequest {
-
     private String firstname;
     private String lastname;
     private String email;
@@ -19,8 +19,9 @@ public class ClientRequest {
     private String adress;
     private LocalDate dateNaissance;
 
-    // Permis
-    private String permisNumero;
-    private String permisCategorie;
-    private LocalDate permisExpiration;
+    private String          permisNumero;
+    private categoriePermis permisCategorie;
+    private LocalDate       permisObtention;
+    private LocalDate       permisExpiration;
+    private paysEmission    permisPaysEmission;
 }
