@@ -9,8 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+
 
 @Repository
+
 public interface VehiculeRepository extends JpaRepository<Vehicule, Long> {
 
     // Trouver listes des vehicules en cherchant par status
