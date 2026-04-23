@@ -17,6 +17,8 @@ public class OrdreMaintenance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String immatriculation;
+
     @Column(nullable = false)
     private String typeReparation;
 

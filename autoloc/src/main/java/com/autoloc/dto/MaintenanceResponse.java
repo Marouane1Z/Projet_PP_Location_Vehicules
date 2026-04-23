@@ -16,9 +16,9 @@ public class MaintenanceResponse {
     private Long id;
     private String typeReparation;
     private StatutMaintenance statut;
-    //private LocalDate dateSignal;
-    //private LocalDate dateResolution;
-    //private Double coutReparation;
+    private LocalDate dateSignal;
+    private LocalDate dateResolution;
+    private Double coutReparation;
 
     // ─── Champs supplémentaires utiles ────────────────────────────────────
 
@@ -26,12 +26,12 @@ public class MaintenanceResponse {
 
     // Infos du véhicule concerné
     private Long vehiculeId;
-    //private String vehiculeMarque;
-    //private String vehiculeModele;
-    //private String vehiculeImmatriculation;
+    private String vehiculeMarque;
+    private String vehiculeModele;
+    private String vehiculeImmatriculation;
 
     // Infos du technicien assigné
     private Long technicienId;
-    //private String technicienNom;
-    //private String technicienPrenom;
+    private String technicienNom;
+    private String technicienPrenom;
 }

@@ -1,9 +1,9 @@
 package com.autoloc.service;
 
-import GIT com.autoloc.dto.maintenance.MaintenanceRequest;
+import com.autoloc.dto.maintenance.MaintenanceRequest;
 import com.autoloc.dto.maintenance.MaintenanceResponse;
-import com.autoloc.enums.StatutMaintenance;
-import com.autoloc.enums.StatutVehicule;
+import com.autoloc.enums.statutMaintenance;
+import com.autoloc.enums.statutVehicule;
 import com.autoloc.exception.MaintenanceNotFoundException;
 import com.autoloc.exception.TechnicienNotFoundException;
 import com.autoloc.exception.VehiculeNotFoundException;
@@ -22,17 +22,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Service Maintenance — logique métier des ordres de maintenance.
+ * MaintenanceService — méthodes du diagramme de classes :
  *
- * Correspond aux méthodes du diagramme de classes :
- *   OrdreMaintenance : +assigner(Technicien t), +resoudre()
- *   Technicien       : +receptionOrdre(id), +demarrerReparation(id),
- *                      +cloturerReparation(id), +UpdateStatus(StatutMaintenance s)
+ *   Admin :
+ *     +DeclencherMaintenance(Vehicule v): OrdreMaintenance
+ *     +CloturerMaintenance(OrdreMaintenance o): void
  *
- * Statuts possibles (StatutMaintenance.java) :
- *   SIGNALE → EN_COURS → RESOLU
- *                      → ABANDONNE
+ *   OrdreMaintenance :
+ *     +assigner(Mechanicien m): void
+ *     +resoudre(): void
  */
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -42,79 +42,53 @@ public class MaintenanceService {
     private final VehiculeRepository    vehiculeRepository;
     private final TechnicienRepository  technicienRepository;
 
-    // ─── CRÉER UN ORDRE (Admin) ───────────────────────────────────────────
+    // ─── declencherMaintenance ────────────────────────────────────────────
 
     /**
-     * L'Admin signale une panne et crée un ordre de maintenance.
-     * Champs utilisés depuis OrdreMaintenance.java :
-     *   typeReparation, description, dateSignal, statut, vehicule, technicien
+     * Diagramme Admin : +DeclencherMaintenance(Vehicule v): OrdreMaintenance
      *
+     * L'admin signale une panne sur un véhicule.
      * Effets automatiques :
+     *   - ordre créé avec statut = SIGNALE
      *   - véhicule → EN_MAINTENANCE
-     *   - si technicienId fourni → statut = EN_COURS + technicien.disponible = false
-     *   - si pas de technicien   → statut = SIGNALE
      */
-    public MaintenanceResponse creerOrdre(MaintenanceRequest request) {
+    public MaintenanceResponse declencherMaintenance(MaintenanceRequest request) {
+        Vehicule vehicule = vehiculeRepository.findByImmatriculation(request.getVehiculeImmatriculation())
+                .orElseThrow(() -> new VehiculeNotFoundException(request.getVehiculeImmatriculation()));
 
-        // Récupérer le véhicule (depuis VehiculeRepository)
-        Vehicule vehicule = vehiculeRepository.findById(request.getVehiculeId())
-                .orElseThrow(() -> new VehiculeNotFoundException(request.getVehiculeId()));
-
-        // Préparer l'ordre
         OrdreMaintenance ordre = new OrdreMaintenance();
+        ordre.setImmatriculation(request.getVehiculeImmatriculation());
         ordre.setTypeReparation(request.getTypeReparation());
         ordre.setDescription(request.getDescription());
         ordre.setDateSignal(LocalDate.now());
-        ordre.setStatut(StatutMaintenance.SIGNALE);
+        ordre.setStatut(statutMaintenance.SIGNALE);
         ordre.setVehicule(vehicule);
 
-        // Assigner technicien si fourni dans le DTO
-        if (request.getTechnicienId() != null) {
-            Technicien technicien = technicienRepository
-                    .findById(request.getTechnicienId())
-                    .orElseThrow(() -> new TechnicienNotFoundException(
-                            request.getTechnicienId()
-                    ));
-
-            // Règle métier : technicien doit être disponible
-            if (!technicien.getDisponible()) {
-                throw new IllegalStateException(
-                        "Le technicien id=" + request.getTechnicienId()
-                                + " n'est pas disponible"
-                );
-            }
-
-            ordre.setTechnicien(technicien);
-            ordre.setStatut(StatutMaintenance.EN_COURS);
-
-            // Technicien devient indisponible
-            technicien.setDisponible(false);
-            technicienRepository.save(technicien);
-        }
-
-        // Véhicule passe EN_MAINTENANCE
-        vehicule.changerStatut(StatutVehicule.EN_MAINTENANCE);
+        // Véhicule → EN_MAINTENANCE
+        vehicule.changerStatut(statutVehicule.EN_MAINTENANCE);
         vehiculeRepository.save(vehicule);
 
         return toResponse(maintenanceRepository.save(ordre));
     }
 
-    // ─── ASSIGNER UN TECHNICIEN ───────────────────────────────────────────
+    // ─── assigner ─────────────────────────────────────────────────────────
 
     /**
-     * Assigne un technicien à un ordre SIGNALE.
-     * Correspond à : +assigner(Technicien t) dans OrdreMaintenance du diagramme.
+     * Diagramme OrdreMaintenance : +assigner(Mechanicien m): void
+     *
+     * Assigne un technicien disponible à un ordre SIGNALE.
+     * Effets automatiques :
+     *   - ordre → EN_COURS
+     *   - technicien → disponible = false
      */
     public MaintenanceResponse assigner(Long ordreId, Long technicienId) {
 
         OrdreMaintenance ordre = maintenanceRepository.findById(ordreId)
                 .orElseThrow(() -> new MaintenanceNotFoundException(ordreId));
 
-        // Règle métier : peut assigner uniquement si SIGNALE
-        if (ordre.getStatut() != StatutMaintenance.SIGNALE) {
+        if (ordre.getStatut() != statutMaintenance.SIGNALE) {
             throw new IllegalStateException(
-                    "Impossible d'assigner un technicien : "
-                            + "l'ordre n'est pas en statut SIGNALE"
+                    "Impossible d'assigner : l'ordre n'est pas SIGNALE"
             );
         }
 
@@ -123,76 +97,53 @@ public class MaintenanceService {
 
         if (!technicien.getDisponible()) {
             throw new IllegalStateException(
-                    "Le technicien id=" + technicienId + " n'est pas disponible"
+                    "Technicien id=" + technicienId + " non disponible"
             );
         }
 
         ordre.setTechnicien(technicien);
-        ordre.setStatut(StatutMaintenance.EN_COURS);
+        ordre.setStatut(statutMaintenance.EN_COURS);
 
+        // Technicien → indisponible
         technicien.setDisponible(false);
         technicienRepository.save(technicien);
 
         return toResponse(maintenanceRepository.save(ordre));
     }
 
-    // ─── DÉMARRER RÉPARATION (Technicien) ────────────────────────────────
+    // ─── resoudre ─────────────────────────────────────────────────────────
 
     /**
-     * Correspond à : +demarrerReparation(id) dans Technicien du diagramme.
-     * Passe le statut à EN_COURS.
-     */
-    public MaintenanceResponse demarrerReparation(Long ordreId) {
-
-        OrdreMaintenance ordre = maintenanceRepository.findById(ordreId)
-                .orElseThrow(() -> new MaintenanceNotFoundException(ordreId));
-
-        if (ordre.getStatut() != StatutMaintenance.SIGNALE
-                && ordre.getStatut() != StatutMaintenance.EN_COURS) {
-            throw new IllegalStateException(
-                    "Impossible de démarrer : statut actuel = " + ordre.getStatut()
-            );
-        }
-
-        ordre.setStatut(StatutMaintenance.EN_COURS);
-        return toResponse(maintenanceRepository.save(ordre));
-    }
-
-    // ─── CLÔTURER RÉPARATION (Technicien) ────────────────────────────────
-
-    /**
-     * Correspond à : +cloturerReparation(id) et +resoudre() dans le diagramme.
+     * Diagramme OrdreMaintenance : +resoudre(): void
      *
+     * Marque l'ordre comme résolu.
      * Effets automatiques :
-     *   - statut ordre → RESOLU
-     *   - dateResolution → aujourd'hui
-     *   - coutReparation → enregistré
+     *   - ordre → RESOLU + dateResolution = aujourd'hui
      *   - véhicule → DISPONIBLE
-     *   - technicien.disponible → true
+     *   - technicien → disponible = true
      */
-    public MaintenanceResponse cloturerReparation(Long ordreId, Double coutReel) {
+    public MaintenanceResponse resoudre(Long ordreId, Double coutReel) {
 
         OrdreMaintenance ordre = maintenanceRepository.findById(ordreId)
                 .orElseThrow(() -> new MaintenanceNotFoundException(ordreId));
 
-        // Règle métier : peut clôturer uniquement si EN_COURS
-        if (ordre.getStatut() != StatutMaintenance.EN_COURS) {
+        if (ordre.getStatut() != statutMaintenance.EN_COURS) {
             throw new IllegalStateException(
-                    "Impossible de clôturer : l'ordre doit être EN_COURS"
+                    "Impossible de résoudre : l'ordre n'est pas EN_COURS"
             );
         }
 
-        // Mettre à jour l'ordre (champs de OrdreMaintenance.java)
-        ordre.setStatut(StatutMaintenance.RESOLU);
+        // Résoudre l'ordre
+        ordre.setStatut(statutMaintenance.RESOLU);
         ordre.setDateResolution(LocalDate.now());
         ordre.setCoutReparation(coutReel);
 
-        // Véhicule redevient DISPONIBLE
+        // Véhicule → DISPONIBLE
         Vehicule vehicule = ordre.getVehicule();
-        vehicule.changerStatut(StatutVehicule.DISPONIBLE);
+        vehicule.changerStatut(statutVehicule.DISPONIBLE);
         vehiculeRepository.save(vehicule);
 
-        // Technicien redevient disponible
+        // Technicien → disponible
         Technicien technicien = ordre.getTechnicien();
         if (technicien != null) {
             technicien.setDisponible(true);
@@ -202,42 +153,32 @@ public class MaintenanceService {
         return toResponse(maintenanceRepository.save(ordre));
     }
 
-    // ─── METTRE À JOUR LE STATUT (Technicien) ────────────────────────────
+    // ─── cloturerMaintenance ──────────────────────────────────────────────
 
     /**
-     * Correspond à : +UpdateStatus(StatutMaintenance s) dans Technicien du diagramme.
-     * Permet de changer manuellement le statut d'un ordre.
-     */
-    public MaintenanceResponse updateStatut(Long ordreId, StatutMaintenance statut) {
-
-        OrdreMaintenance ordre = maintenanceRepository.findById(ordreId)
-                .orElseThrow(() -> new MaintenanceNotFoundException(ordreId));
-
-        ordre.setStatut(statut);
-        return toResponse(maintenanceRepository.save(ordre));
-    }
-
-    // ─── ABANDONNER ───────────────────────────────────────────────────────
-
-    /**
-     * Statut ABANDONNE (depuis StatutMaintenance.java).
-     * Effets :
+     * Diagramme Admin : +CloturerMaintenance(OrdreMaintenance o): void
+     *
+     * L'admin ferme définitivement un ordre (RESOLU ou ABANDONNE).
+     * Utilisé pour les cas où l'admin décide d'abandonner la réparation.
+     * Effets automatiques :
+     *   - ordre → ABANDONNE
      *   - véhicule → HORS_SERVICE
-     *   - technicien → disponible si assigné
+     *   - technicien → disponible = true
      */
-    public MaintenanceResponse abandonner(Long ordreId) {
+    public MaintenanceResponse cloturerMaintenance(Long ordreId) {
 
         OrdreMaintenance ordre = maintenanceRepository.findById(ordreId)
                 .orElseThrow(() -> new MaintenanceNotFoundException(ordreId));
 
-        ordre.setStatut(StatutMaintenance.ABANDONNE);
+        ordre.setStatut(statutMaintenance.ABANDONNE);
+        ordre.setDateResolution(LocalDate.now());
 
-        // Véhicule passe HORS_SERVICE
+        // Véhicule → HORS_SERVICE
         Vehicule vehicule = ordre.getVehicule();
-        vehicule.changerStatut(StatutVehicule.HORS_SERVICE);
+        vehicule.changerStatut(statutVehicule.HORS_SERVICE);
         vehiculeRepository.save(vehicule);
 
-        // Technicien redevient disponible
+        // Technicien → disponible
         Technicien technicien = ordre.getTechnicien();
         if (technicien != null) {
             technicien.setDisponible(true);
@@ -245,61 +186,12 @@ public class MaintenanceService {
         }
 
         return toResponse(maintenanceRepository.save(ordre));
-    }
-
-    // ─── LIRE ─────────────────────────────────────────────────────────────
-
-    @Transactional(readOnly = true)
-    public MaintenanceResponse findById(Long id) {
-        return toResponse(
-                maintenanceRepository.findById(id)
-                        .orElseThrow(() -> new MaintenanceNotFoundException(id))
-        );
-    }
-
-    @Transactional(readOnly = true)
-    public List<MaintenanceResponse> findAll() {
-        return maintenanceRepository.findAll()
-                .stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public List<MaintenanceResponse> findByStatut(StatutMaintenance statut) {
-        return maintenanceRepository.findByStatut(statut)
-                .stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public List<MaintenanceResponse> findByTechnicienId(Long technicienId) {
-        return maintenanceRepository.findByTechnicienId(technicienId)
-                .stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public List<MaintenanceResponse> findByVehiculeId(Long vehiculeId) {
-        return maintenanceRepository.findByVehiculeId(vehiculeId)
-                .stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
     }
 
     // ─── toResponse : entité → DTO ────────────────────────────────────────
 
-    /**
-     * Convertit OrdreMaintenance en MaintenanceResponse.
-     * Champs de l'image : id, typeReparation, statut,
-     *                     dateSignal, dateResolution, coutReparation
-     */
     public MaintenanceResponse toResponse(OrdreMaintenance ordre) {
         MaintenanceResponse r = new MaintenanceResponse();
-
-        // Champs directs de OrdreMaintenance.java
         r.setId(ordre.getId());
         r.setTypeReparation(ordre.getTypeReparation());
         r.setDescription(ordre.getDescription());
@@ -308,7 +200,6 @@ public class MaintenanceService {
         r.setDateResolution(ordre.getDateResolution());
         r.setCoutReparation(ordre.getCoutReparation());
 
-        // Infos véhicule (@ManyToOne dans OrdreMaintenance.java)
         if (ordre.getVehicule() != null) {
             r.setVehiculeId(ordre.getVehicule().getId());
             r.setVehiculeMarque(ordre.getVehicule().getMarque());
@@ -316,8 +207,6 @@ public class MaintenanceService {
             r.setVehiculeImmatriculation(ordre.getVehicule().getImmatriculation());
         }
 
-        // Infos technicien (@ManyToOne dans OrdreMaintenance.java)
-        // firstname + lastname hérités de User.java
         if (ordre.getTechnicien() != null) {
             r.setTechnicienId(ordre.getTechnicien().getId());
             r.setTechnicienPrenom(ordre.getTechnicien().getFirstname());

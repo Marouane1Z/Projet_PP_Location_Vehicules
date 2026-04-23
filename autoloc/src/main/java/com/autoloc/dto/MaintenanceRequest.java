@@ -7,8 +7,11 @@ import lombok.*;
 @Data
 public class MaintenanceRequest {
 
-    @NotNull(message = "L'identifiant du véhicule est obligatoire")
+    //@NotNull(message = "L'identifiant du véhicule est obligatoire")
     private Long vehiculeId;
+
+    @NotNull(message = "L'immatriculation du véhicule est obligatoire")
+    private String vehiculeImmatriculation;
 
     // technicienId peut être null si le technicien n'est pas encore assigné
     private Long technicienId;
