@@ -1,10 +1,6 @@
 package com.autoloc.model;
 
-<<<<<<< HEAD
 import com.autoloc.enums.statutVehicule;
-=======
-import com.autoloc.enums.StatutVehicule;
->>>>>>> develop
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -61,11 +57,7 @@ public abstract class Vehicule {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "statut", nullable = false)
-<<<<<<< HEAD
     private statutVehicule statut = statutVehicule.DISPONIBLE;
-=======
-    private StatutVehicule statut = StatutVehicule.DISPONIBLE;
->>>>>>> develop
 
     @Column(name = "image", columnDefinition = "TEXT")
     private String image;
@@ -79,7 +71,7 @@ public abstract class Vehicule {
     /**
      * Relation Many-to-Many avec Option.
      * Table pivot : option_vehicule (vehicule_id, option_id)
-     * Conforme au diagramme : Vehicule *──* Option
+     * Conforme au diagramme : Vehicule *──* Options
      */
 
     @ManyToMany
@@ -90,57 +82,5 @@ public abstract class Vehicule {
     )
 
     private List<Option> options = new ArrayList<>();
-
-    // Timestamps techniques (non présents dans le diagramme, bonne pratique)
-    // @Column(name = "created_at", updatable = false)
-    // private LocalDateTime createdAt;
-
-    // @Column(name = "updated_at")
-    // private LocalDateTime updatedAt;
-
-    /** @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-        if (this.statut == null) {
-            this.statut = StatutVehicule.DISPONIBLE;
-        }
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
-    */
-
-
-    //les deux méthodes ci-dessous vont être déplacées vers /Services
-
-
-    /**
-     * Vérifie si le véhicule est actuellement disponible.
-     */
-
-    public boolean estDisponible() {
-<<<<<<< HEAD
-        return statutVehicule.DISPONIBLE.equals(this.statut);
-=======
-        return StatutVehicule.DISPONIBLE.equals(this.statut);
->>>>>>> develop
-    }
-
-    /**
-     * Change le statut du véhicule.
-     *
-     * @param nouveauStatut le nouveau statut à appliquer
-     */
-
-<<<<<<< HEAD
-    public void changerStatut(statutVehicule nouveauStatut) {
-=======
-    public void changerStatut(StatutVehicule nouveauStatut) {
->>>>>>> develop
-        this.statut = nouveauStatut;
-    }
 
 }
