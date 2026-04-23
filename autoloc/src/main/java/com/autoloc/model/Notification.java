@@ -29,8 +29,7 @@ public class Notification {
     private LocalDateTime dateEnvoi;
 
     @ManyToOne
-    @JoinTable(name = "utilisateur")
+    @JoinColumn(name = "utilisateur_id")
     private User u;
-
 
 }
