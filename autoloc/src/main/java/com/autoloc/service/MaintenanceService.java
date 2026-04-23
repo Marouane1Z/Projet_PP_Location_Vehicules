@@ -1,6 +1,6 @@
 package com.autoloc.service;
 
-import com.autoloc.dto.maintenance.MaintenanceRequest;
+import GIT com.autoloc.dto.maintenance.MaintenanceRequest;
 import com.autoloc.dto.maintenance.MaintenanceResponse;
 import com.autoloc.enums.StatutMaintenance;
 import com.autoloc.enums.StatutVehicule;
