@@ -12,7 +12,7 @@ public class TechnicienResponse {
     private String firstname;
     private String lastname;
     private String email;
-    private String password;
+    //private String password;
     private String role;
     private String specialite;
     private Boolean disponible;
