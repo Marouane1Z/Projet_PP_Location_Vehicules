@@ -26,22 +26,21 @@ public class VehiculeRequest {
     @Size(max = 20, message = "L'immatriculation ne doit pas dépasser 20 caractères")
     private String immatriculation;
 
-    /*@NotNull(message = "L'année est obligatoire")
-    @Min(value = 1900, message = "L'année doit être supérieure à 1900")
-    @Max(value = 2100, message = "L'année doit être inférieure à 2100")
+    //@NotNull(message = "L'année est obligatoire")
+    //@Min(value = 1900, message = "L'année doit être supérieure à 1900")
+    //@Max(value = 2100, message = "L'année doit être inférieure à 2100")
     private Integer annee;
-    **/
 
 
-    /*@NotNull(message = "Saisissez un prix")
+
+    @NotNull(message = "Saisissez un prix")
     @Positive(message = "Le prix doit être positif")
     private Double prixParJour;
-    **/
 
-    /*@NotNull(message = "La caution est obligatoire")
+    @NotNull(message = "La caution est obligatoire")
     @PositiveOrZero(message = "La caution doit être positive")
     private Double caution;
-    **/
+
 
 
     @Size(max = 30)
@@ -55,13 +54,13 @@ public class VehiculeRequest {
 
     // ─── Champs Voiture (utilisés si type = VOITURE) ──────────────────────
 
-    /*@Positive(message = "Saisissez un nombre positif")
+    @Positive(message = "Saisissez un nombre positif")
     private Integer nbPortes;
-    **/
 
-    /*@Positive(message = "Saisissez un nombre positif")
+
+    @Positive(message = "Saisissez un nombre positif")
     private Integer nbPlaces;
-    **/
+
 
 
     @Size(max = 30)
@@ -70,19 +69,19 @@ public class VehiculeRequest {
 
     // ─── Champs Camion (utilisés si type = CAMION) ────────────────────────
 
-    /*@Positive(message = "Entrez valeur positif")
+    @Positive(message = "Entrez valeur positif")
     private Double tonnage;
-    **/
 
-    /*@Positive(message = "Entrez valeur positif")
+
+    @Positive(message = "Entrez valeur positif")
     private Double volume;
-    **/
 
-    /*@Positive(message = "Entrez valeur positive")
+
+    @Positive(message = "Entrez valeur positive")
     private Double longueur;
 
-    private Boolean elevator = false;
-    **/
+    //private Boolean elevator = false;
+    private Boolean elevator;
 
     // ─── Options à associer
 

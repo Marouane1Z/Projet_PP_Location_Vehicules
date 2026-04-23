@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
  *   - impossible de supprimer un véhicule LOUE ou EN_MAINTENANCE
  *   - le type (VOITURE/CAMION) ne change jamais après création
  */
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -36,6 +37,68 @@ public class VehiculeService {
     private final OptionRepository   optionRepository;
 
     // ─── AJOUTER ──────────────────────────────────────────────────────────
+
+    /**
+     * Construit un objet Voiture ou Camion selon le champ type du DTO.
+     * Initialise tous les champs communs hérités de Vehicule.
+     */
+
+    private Vehicule construireVehicule(VehiculeRequest request) {
+        Vehicule vehicule;
+
+        if ("VOITURE".equals(request.getType())) {
+            Voiture voiture = new Voiture();
+            voiture.setNbPortes(request.getNbPortes());
+            voiture.setNbPlaces(request.getNbPlaces());
+            voiture.setCategorie(request.getCategorie());
+            vehicule = voiture;
+
+        } else if ("CAMION".equals(request.getType())) {
+            Camion camion = new Camion();
+            camion.setTonnage(request.getTonnage());
+            camion.setVolume(request.getVolume());
+            camion.setLongueur(request.getLongueur());
+            camion.setElevator(
+                    request.getElevator() != null ? request.getElevator() : false
+            );
+            vehicule = camion;
+
+        } else {
+            throw new IllegalArgumentException(
+                    "Type de véhicule invalide : " + request.getType()
+                            + ". Valeurs acceptées : VOITURE, CAMION"
+            );
+        }
+
+        // Champs communs (hérités de Vehicule)
+        vehicule.setMarque(request.getMarque());
+        vehicule.setModele(request.getModele());
+        vehicule.setImmatriculation(request.getImmatriculation());
+        vehicule.setAnnee(request.getAnnee());
+        vehicule.setPrixParJour(request.getPrixParJour());
+        vehicule.setCaution(request.getCaution());
+        vehicule.setImage(request.getImage());
+        vehicule.setTypeCarburant(request.getTypeCarburant());
+        vehicule.setTypeBoiteVitesse(request.getTypeBoite());
+
+        // Statut par défaut : DISPONIBLE
+        vehicule.setStatut(StatutVehicule.DISPONIBLE);
+
+        return vehicule;
+    }
+
+    /**
+     * Associe les options au véhicule.
+     * Si optionIds est null ou vide → on vide la liste des options.
+     */
+
+    private void assignerOptions(Vehicule vehicule, List<Long> optionIds) {
+        vehicule.getOptions().clear();
+        if (optionIds != null && !optionIds.isEmpty()) {
+            List<Option> options = optionRepository.findAllById(optionIds);
+            vehicule.getOptions().addAll(options);
+        }
+    }
 
     public VehiculeResponse ajouterVehicule(VehiculeRequest request) {
 
@@ -57,7 +120,8 @@ public class VehiculeService {
 
     // ─── LIRE ─────────────────────────────────────────────────────────────
 
-    @Transactional(readOnly = true)
+    // cherche un vehicule par ID
+    @Transactional(readOnly = true)  //cette méthode lit uniquement
     public VehiculeResponse findById(Long id) {
         return toResponse(
                 vehiculeRepository.findById(id)
@@ -65,6 +129,7 @@ public class VehiculeService {
         );
     }
 
+    // cherche tous les vehicules
     @Transactional(readOnly = true)
     public List<VehiculeResponse> findAll() {
         return vehiculeRepository.findAll()
@@ -73,22 +138,23 @@ public class VehiculeService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
+    /*@Transactional(readOnly = true)
     public List<VehiculeResponse> findDisponibles() {
         return vehiculeRepository.findByStatut(StatutVehicule.DISPONIBLE)
                 .stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
-    }
+    }**/
 
-    @Transactional(readOnly = true)
+    /* @Transactional(readOnly = true)
     public List<VehiculeResponse> findDisponiblesSurPeriode(
             LocalDate dateDebut, LocalDate dateFin) {
         return vehiculeRepository.findDisponiblesSurPeriode(dateDebut, dateFin)
                 .stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
-    }
+    }**/
+
 
     @Transactional(readOnly = true)
     public List<VehiculeResponse> findAllVoitures() {
@@ -106,6 +172,50 @@ public class VehiculeService {
                 .collect(Collectors.toList());
     }
 
+    // Chercher par immatriculation
+    @Transactional(readOnly = true)
+    public VehiculeResponse findByImmatriculation(String immatriculation) {
+        return toResponse(
+                vehiculeRepository.findByImmatriculation(immatriculation)
+                        .orElseThrow(() -> new VehiculeNotFoundException(
+                                "Véhicule introuvable avec l'immatriculation : " + immatriculation
+                        ))
+        );
+    }
+
+    // Chercher par marque
+    @Transactional(readOnly = true)
+    public List<VehiculeResponse> findByMarque(String marque) {
+        return vehiculeRepository.findByMarqueIgnoreCase(marque)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    // Chercher par modele
+    @Transactional(readOnly = true)
+    public List<VehiculeResponse> findByModele(String modele) {
+        return vehiculeRepository.findByModeleIgnoreCase(modele)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    // recherche par mot clé
+    @Transactional(readOnly = true)
+    public List<VehiculeResponse> rechercher(String keyword) {
+        return vehiculeRepository
+                .findByMarqueContainingIgnoreCaseOrModeleContainingIgnoreCaseOrImmatriculationContainingIgnoreCase(
+                        keyword,  // ← pour marque
+                        keyword,  // ← pour modele
+                        keyword   // ← pour immatriculation
+                )
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+
     // ─── MODIFIER ─────────────────────────────────────────────────────────
 
     public VehiculeResponse modifier(Long id, VehiculeRequest request) {
@@ -113,7 +223,7 @@ public class VehiculeService {
         Vehicule vehicule = vehiculeRepository.findById(id)
                 .orElseThrow(() -> new VehiculeNotFoundException(id));
 
-        // Vérifier unicité immatriculation si elle change
+        // Vérifier unicité immatriculation si elle existe déjà ou pas
         if (!vehicule.getImmatriculation().equals(request.getImmatriculation())
                 && vehiculeRepository.existsByImmatriculation(request.getImmatriculation())) {
             throw new IllegalArgumentException(
@@ -189,65 +299,7 @@ public class VehiculeService {
 
     // ─── MÉTHODES PRIVÉES ─────────────────────────────────────────────────
 
-    /**
-     * Construit un objet Voiture ou Camion selon le champ type du DTO.
-     * Initialise tous les champs communs hérités de Vehicule.
-     */
-    private Vehicule construireVehicule(VehiculeRequest request) {
-        Vehicule vehicule;
 
-        if ("VOITURE".equalsIgnoreCase(request.getType())) {
-            Voiture voiture = new Voiture();
-            voiture.setNbPortes(request.getNbPortes());
-            voiture.setNbPlaces(request.getNbPlaces());
-            voiture.setCategorie(request.getCategorie());
-            vehicule = voiture;
-
-        } else if ("CAMION".equalsIgnoreCase(request.getType())) {
-            Camion camion = new Camion();
-            camion.setTonnage(request.getTonnage());
-            camion.setVolume(request.getVolume());
-            camion.setLongueur(request.getLongueur());
-            camion.setElevator(
-                    request.getElevator() != null ? request.getElevator() : false
-            );
-            vehicule = camion;
-
-        } else {
-            throw new IllegalArgumentException(
-                    "Type de véhicule invalide : " + request.getType()
-                            + ". Valeurs acceptées : VOITURE, CAMION"
-            );
-        }
-
-        // Champs communs (hérités de Vehicule)
-        vehicule.setMarque(request.getMarque());
-        vehicule.setModele(request.getModele());
-        vehicule.setImmatriculation(request.getImmatriculation());
-        vehicule.setAnnee(request.getAnnee());
-        vehicule.setPrixParJour(request.getPrixParJour());
-        vehicule.setCaution(request.getCaution());
-        vehicule.setImage(request.getImage());
-        vehicule.setTypeCarburant(request.getTypeCarburant());
-        vehicule.setTypeBoiteVitesse(request.getTypeBoite());
-
-        // Statut par défaut : DISPONIBLE
-        vehicule.setStatut(StatutVehicule.DISPONIBLE);
-
-        return vehicule;
-    }
-
-    /**
-     * Associe les options au véhicule.
-     * Si optionIds est null ou vide → on vide la liste des options.
-     */
-    private void assignerOptions(Vehicule vehicule, List<Long> optionIds) {
-        vehicule.getOptions().clear();
-        if (optionIds != null && !optionIds.isEmpty()) {
-            List<Option> options = optionRepository.findAllById(optionIds);
-            vehicule.getOptions().addAll(options);
-        }
-    }
 
     /**
      * Convertit une entité Vehicule en VehiculeResponse DTO.
