@@ -53,6 +53,12 @@ public class MaintenanceService {
      *   - véhicule → EN_MAINTENANCE
      */
     public MaintenanceResponse declencherMaintenance(MaintenanceRequest request) {
+
+        /*
+        Vehicule vehicule = vehiculeRepository.findById(request.getVehiculeId())
+                .orElseThrow(() -> new VehiculeNotFoundException(request.getVehiculeId()));
+         **/
+
         Vehicule vehicule = vehiculeRepository.findByImmatriculation(request.getVehiculeImmatriculation())
                 .orElseThrow(() -> new VehiculeNotFoundException(request.getVehiculeImmatriculation()));
 

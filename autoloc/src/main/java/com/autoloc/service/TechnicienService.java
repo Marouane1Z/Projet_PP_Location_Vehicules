@@ -2,9 +2,13 @@ package com.autoloc.service;
 
 import com.autoloc.dto.technicien.TechnicienRequest;
 import com.autoloc.dto.technicien.TechnicienResponse;
+import com.autoloc.enums.statutMaintenance;
 import com.autoloc.enums.userRole;
+import com.autoloc.exception.MaintenanceNotFoundException;
 import com.autoloc.exception.TechnicienNotFoundException;
+import com.autoloc.model.OrdreMaintenance;
 import com.autoloc.model.Technicien;
+import com.autoloc.repository.MaintenanceRepository;
 import com.autoloc.repository.TechnicienRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,34 +19,42 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Service Technicien — logique métier liée aux techniciens.
+ * TechnicienService — méthodes du diagramme de classes :
  *
- * Règles métier :
- *   - Un technicien est créé UNIQUEMENT par l'Admin (jamais auto-inscription)
- *   - Email unique dans tout le système (hérité de User)
- *   - Mot de passe hashé avec BCrypt avant sauvegarde
- *   - Disponible = true par défaut à la création
- *   - Role = Mechanicien automatiquement à la création
+ *   Admin :
+ *     +creerTechnicien(Technicien a): Technicien
+ *     +modifierTechnicien(BIGINT id): void
+ *     +supprimerTechnicien(BIGINT id): void
+ *
+ *   Technicien :
+ *     +receptionOrdre(id): void
+ *     +demarrerReparation(id): void
+ *     +cloturerReparation(id): void
+ *     +UpdateStatus(StatutMaintenance s): void
  */
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class TechnicienService {
 
-    private final TechnicienRepository technicienRepository;
-    private final PasswordEncoder      passwordEncoder;
+    private final TechnicienRepository  technicienRepository;
+    private final MaintenanceRepository maintenanceRepository;
+    private final PasswordEncoder       passwordEncoder;
 
-    // ─── CRÉER (Admin uniquement) ─────────────────────────────────────────
+    // ─── creerTechnicien ─────────────────────────────────────────────────
 
     /**
-     * Crée un nouveau compte technicien.
-     * Basé sur les champs de Technicien.java + User.java :
-     *   - firstname, lastname, email, password (User)
-     *   - specialite, disponible (Technicien)
+     * Diagramme Admin : +creerTechnicien(Technicien a): Technicien
+     *
+     * Crée un compte technicien.
+     * Appelé uniquement par l'Admin — le technicien ne peut pas s'inscrire seul.
+     * Règles métier :
+     *   - email unique
+     *   - mot de passe hashé avec BCrypt
+     *   - disponible = true par défaut
      */
-    public TechnicienResponse creer(TechnicienRequest request) {
+    public TechnicienResponse creerTechnicien(TechnicienRequest request) {
 
-        // Règle métier : email unique (hérité de User — unique = true)
         if (technicienRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new IllegalArgumentException(
                     "Email déjà utilisé : " + request.getEmail()
@@ -51,144 +63,191 @@ public class TechnicienService {
 
         Technicien technicien = new Technicien();
 
-        // Champs hérités de User.java
+        // Champs hérités de User
         technicien.setFirstname(request.getFirstname());
         technicien.setLastname(request.getLastname());
         technicien.setEmail(request.getEmail());
         technicien.setPassword(passwordEncoder.encode(request.getPassword()));
-        technicien.setRole(userRole.Mechanicien);  // role fixé automatiquement
-        technicien.setActif(true);                 // actif par défaut
+        technicien.setRole(userRole.Mechanicien);
+        technicien.setActif(true);
 
-        // Champs propres de Technicien.java
+        // Champs propres à Technicien
         technicien.setSpecialite(request.getSpecialite());
-        technicien.setDisponible(true);            // disponible par défaut
+        technicien.setDisponible(true);
 
         return toResponse(technicienRepository.save(technicien));
     }
 
-    // ─── LIRE ─────────────────────────────────────────────────────────────
+    // ─── modifierTechnicien ───────────────────────────────────────────────
 
-    @Transactional(readOnly = true)
-    public TechnicienResponse findById(Long id) {
-        return toResponse(
-                technicienRepository.findById(id)
-                        .orElseThrow(() -> new TechnicienNotFoundException(id))
-        );
-    }
+    /**
+     * Diagramme Admin : +modifierTechnicien(BIGINT id): void
+     *
+     * Modifie les informations d'un technicien existant.
+     */
+    public TechnicienResponse modifierTechnicien(Long id, TechnicienRequest request) {
 
-    @Transactional(readOnly = true)
-    public List<TechnicienResponse> findAll() {
-        return technicienRepository.findAll()
-                .stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public List<TechnicienResponse> findDisponibles() {
-        return technicienRepository.findByDisponibleTrue()
-                .stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public List<TechnicienResponse> findBySpecialite(String specialite) {
-        return technicienRepository.findBySpecialite(specialite)
-                .stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public List<TechnicienResponse> findByNom(String lastname) {
-        return technicienRepository.findByLastname(lastname)
-                .stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
-    }
-
-    // ─── MODIFIER ─────────────────────────────────────────────────────────
-
-    public TechnicienResponse modifier(Long id, TechnicienRequest request) {
         Technicien technicien = technicienRepository.findById(id)
                 .orElseThrow(() -> new TechnicienNotFoundException(id));
 
-        // On peut modifier prénom, nom, spécialité
-        // Email et password ne se modifient pas ici (endpoints dédiés)
+        // Champs hérités de User
         technicien.setFirstname(request.getFirstname());
         technicien.setLastname(request.getLastname());
+
+        // Champs propres à Technicien
         technicien.setSpecialite(request.getSpecialite());
 
         return toResponse(technicienRepository.save(technicien));
     }
 
-    // ─── CHANGER DISPONIBILITÉ ────────────────────────────────────────────
+    // ─── supprimerTechnicien ──────────────────────────────────────────────
 
     /**
-     * Appelé automatiquement par MaintenanceService :
-     *   - disponible = false quand un ordre lui est assigné
-     *   - disponible = true quand il clôture la réparation
+     * Diagramme Admin : +supprimerTechnicien(BIGINT id): void
+     *
+     * Règle métier :
+     *   - impossible si le technicien a des ordres EN_COURS
      */
-    public void changerDisponibilite(Long id, Boolean disponible) {
-        Technicien technicien = technicienRepository.findById(id)
-                .orElseThrow(() -> new TechnicienNotFoundException(id));
-        technicien.setDisponible(disponible);
-        technicienRepository.save(technicien);
-    }
+    public void supprimerTechnicien(Long id) {
 
-    // ─── DÉSACTIVER ───────────────────────────────────────────────────────
-
-    /**
-     * Désactive le compte sans supprimer (actif = false).
-     * Le technicien ne peut plus se connecter mais ses données sont conservées.
-     */
-    public void desactiver(Long id) {
-        Technicien technicien = technicienRepository.findById(id)
-                .orElseThrow(() -> new TechnicienNotFoundException(id));
-        technicien.setActif(false);
-        technicienRepository.save(technicien);
-    }
-
-    // ─── SUPPRIMER ────────────────────────────────────────────────────────
-
-    public void supprimer(Long id) {
         Technicien technicien = technicienRepository.findById(id)
                 .orElseThrow(() -> new TechnicienNotFoundException(id));
 
-        // Règle métier : ne pas supprimer un technicien non disponible
-        // (il a peut-être un ordre EN_COURS)
-        if (!technicien.getDisponible()) {
+        boolean aDesOrdresEnCours = technicien.getOrdreMaintenances()
+                .stream()
+                .anyMatch(o -> o.getStatut() == statutMaintenance.EN_COURS);
+
+        if (aDesOrdresEnCours) {
             throw new IllegalStateException(
-                    "Impossible de supprimer un technicien avec une réparation en cours"
+                    "Impossible de supprimer : technicien avec des réparations EN_COURS"
             );
         }
 
         technicienRepository.delete(technicien);
     }
 
-    // ─── toResponse : entité → DTO ────────────────────────────────────────
+    // ─── receptionOrdre ───────────────────────────────────────────────────
 
     /**
-     * Convertit Technicien en TechnicienResponse.
-     * Champs de l'image : id, firstname, lastname, email, specialite, disponible
-     * Champs hérités de User : phone, actif
+     * Diagramme Technicien : +receptionOrdre(id): void
+     *
+     * Le technicien prend connaissance de l'ordre assigné.
+     * Statut passe de SIGNALE → EN_COURS.
      */
+    public MaintenanceResponse receptionOrdre(Long ordreId) {
+
+        OrdreMaintenance ordre = maintenanceRepository.findById(ordreId)
+                .orElseThrow(() -> new MaintenanceNotFoundException(ordreId));
+
+        if (ordre.getStatut() == statutMaintenance.SIGNALE) {
+            ordre.setStatut(statutMaintenance.EN_COURS);
+            maintenanceRepository.save(ordre);
+        }
+
+        return toMaintenanceResponse(ordre);
+    }
+
+    // ─── demarrerReparation ───────────────────────────────────────────────
+
+    /**
+     * Diagramme Technicien : +demarrerReparation(id): void
+     *
+     * Le technicien démarre officiellement la réparation.
+     * Statut = EN_COURS.
+     */
+    public MaintenanceResponse demarrerReparation(Long ordreId) {
+
+        OrdreMaintenance ordre = maintenanceRepository.findById(ordreId)
+                .orElseThrow(() -> new MaintenanceNotFoundException(ordreId));
+
+        ordre.setStatut(statutMaintenance.EN_COURS);
+        return toMaintenanceResponse(maintenanceRepository.save(ordre));
+    }
+
+    // ─── cloturerReparation ───────────────────────────────────────────────
+
+    /**
+     * Diagramme Technicien : +cloturerReparation(id): void
+     *
+     * Le technicien termine la réparation.
+     * Délègue à MaintenanceService.resoudre() pour la logique complète
+     * (véhicule → DISPONIBLE, technicien → disponible = true).
+     */
+    public MaintenanceResponse cloturerReparation(Long ordreId, Double coutReel) {
+
+        OrdreMaintenance ordre = maintenanceRepository.findById(ordreId)
+                .orElseThrow(() -> new MaintenanceNotFoundException(ordreId));
+
+        if (ordre.getStatut() != statutMaintenance.EN_COURS) {
+            throw new IllegalStateException(
+                    "Impossible de clôturer : l'ordre n'est pas EN_COURS"
+            );
+        }
+
+        ordre.setStatut(statutMaintenance.RESOLU);
+        ordre.setCoutReparation(coutReel);
+
+        // Technicien → disponible
+        if (ordre.getTechnicien() != null) {
+            ordre.getTechnicien().setDisponible(true);
+            technicienRepository.save(ordre.getTechnicien());
+        }
+
+        return toMaintenanceResponse(maintenanceRepository.save(ordre));
+    }
+
+    // ─── updateStatus ─────────────────────────────────────────────────────
+
+    /**
+     * Diagramme Technicien : +UpdateStatus(StatutMaintenance s): void
+     *
+     * Change manuellement le statut d'un ordre.
+     * Utilisé pour des corrections ou cas particuliers.
+     */
+    public MaintenanceResponse updateStatus(Long ordreId, statutMaintenance statut) {
+
+        OrdreMaintenance ordre = maintenanceRepository.findById(ordreId)
+                .orElseThrow(() -> new MaintenanceNotFoundException(ordreId));
+
+        ordre.setStatut(statut);
+        return toMaintenanceResponse(maintenanceRepository.save(ordre));
+    }
+
+    // ─── toResponse ──────────────────────────────────────────────────────
+
     public TechnicienResponse toResponse(Technicien technicien) {
         TechnicienResponse r = new TechnicienResponse();
-
-        // Champs hérités de User.java
         r.setId(technicien.getId());
         r.setFirstname(technicien.getFirstname());
         r.setLastname(technicien.getLastname());
         r.setEmail(technicien.getEmail());
         r.setPhone(technicien.getPhone());
         r.setActif(technicien.getActif());
-
-        // Champs propres de Technicien.java
         r.setSpecialite(technicien.getSpecialite());
         r.setDisponible(technicien.getDisponible());
+        return r;
+    }
 
+    private MaintenanceResponse toMaintenanceResponse(OrdreMaintenance ordre) {
+        MaintenanceResponse r = new MaintenanceResponse();
+        r.setId(ordre.getId());
+        r.setTypeReparation(ordre.getTypeReparation());
+        r.setStatut(ordre.getStatut());
+        r.setDateSignal(ordre.getDateSignal());
+        r.setDateResolution(ordre.getDateResolution());
+        r.setCoutReparation(ordre.getCoutReparation());
+
+        if (ordre.getVehicule() != null) {
+            r.setVehiculeId(ordre.getVehicule().getId());
+            r.setVehiculeMarque(ordre.getVehicule().getMarque());
+            r.setVehiculeModele(ordre.getVehicule().getModele());
+            r.setVehiculeImmatriculation(ordre.getVehicule().getImmatriculation());
+        }
+        if (ordre.getTechnicien() != null) {
+            r.setTechnicienId(ordre.getTechnicien().getId());
+            r.setTechnicienPrenom(ordre.getTechnicien().getFirstname());
+            r.setTechnicienNom(ordre.getTechnicien().getLastname());
+        }
         return r;
     }
 }
