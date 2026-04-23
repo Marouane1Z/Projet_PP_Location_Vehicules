@@ -34,4 +34,23 @@ public interface VehiculeRepository extends JpaRepository<Vehicule, Long> {
     // trouver par statut et camions
     List<Vehicule> findCamionsByStatut(StatutVehicule statut);
 
+    // trouver un vehicule par immatriculation
+    Optional<Vehicule> findByImmatriculation(String immatriculation);
+
+    // trouver par marque
+    List<Vehicule> findByMarque(String marque);
+
+    //trouver par modele
+    List<Vehicule> findByModele(String modele);
+
+    // ─── Chercher par mot clé (marque OU modele) ──────────────────────────
+    // Containing → cherche si le mot est contenu dans le champ
+    // ex : "peu" → trouve "Peugeot"
+
+    List<Vehicule> findByMarqueContainingIgnoreCaseOrModeleContainingIgnoreCaseOrImmatriculationContainingIgnoreCase(
+            String marque,
+            String modele,
+            String immatriculation
+    );
+
 }
