@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PaiementRepository extends JpaRepository<Paiement, Integer> {
+public interface PaiementRepository extends JpaRepository<Paiement, Long> {
     Optional<Paiement> findByReservationId(Long reservationId);
 
-    List<Paiement> findByStatus(statutPaiement status);
+    List<Paiement> findByStatut(statutPaiement status);
 
 }
