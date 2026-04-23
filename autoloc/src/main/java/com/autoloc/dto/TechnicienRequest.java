@@ -22,12 +22,17 @@ public class TechnicienRequest {
     @Email(message = "Format email invalide")
     private String email;
 
-    /*@NotBlank(message = "Le mot de passe est obligatoire")
+    //@NotBlank(message = "Le mot de passe est obligatoire")
     @Size(min = 8, message = "Le mot de passe doit contenir au moins 8 caractères")
     private String password;
-    **/
+
+    private String role;
+
+    private Boolean actif;
 
     @NotBlank(message = "La spécialité est obligatoire")
     @Size(max = 100)
     private String specialite;
+
+    private Boolean disponible;
 }
