@@ -11,5 +11,11 @@ public class NotificationResponse {
     private String titre;
     private String message;
     private LocalDateTime dateEnvoi;
+
+    // Infos de l'utilisateur destinataire
+    private Long userId;
+    private String userFirstname;
+    private String userLastname;
+
 }
 
