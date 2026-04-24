@@ -3,7 +3,8 @@ package com.autoloc.dto;
 import com.autoloc.enums.modePaiement;
 import com.autoloc.enums.statutPaiement;
 import lombok.*;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -12,7 +13,7 @@ public class PaiementResponse {
     private Long id;
     private Double montant;
     private statutPaiement statut;
-    private LocalDateTime datePaiement;
+    private LocalDate datePaiement;
     private modePaiement modePaiement;
 }
 

@@ -21,7 +21,7 @@ public class Paiement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private String id;
+    private long id;
 
     @Column(name = "montant", nullable = false)
     private Double montant;
