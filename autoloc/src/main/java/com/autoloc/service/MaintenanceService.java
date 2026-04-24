@@ -71,7 +71,7 @@ public class MaintenanceService {
         ordre.setVehicule(vehicule);
 
         // Véhicule → EN_MAINTENANCE
-        vehicule.changerStatut(statutVehicule.EN_MAINTENANCE);
+        vehicule.setStatut(statutVehicule.EN_MAINTENANCE);
         vehiculeRepository.save(vehicule);
 
         return toResponse(maintenanceRepository.save(ordre));
@@ -101,7 +101,7 @@ public class MaintenanceService {
         Technicien technicien = technicienRepository.findById(technicienId)
                 .orElseThrow(() -> new TechnicienNotFoundException(technicienId));
 
-        if (!technicien.getDisponible()) {
+        if (!technicien.isDisponible()) {
             throw new IllegalStateException(
                     "Technicien id=" + technicienId + " non disponible"
             );
@@ -146,7 +146,7 @@ public class MaintenanceService {
 
         // Véhicule → DISPONIBLE
         Vehicule vehicule = ordre.getVehicule();
-        vehicule.changerStatut(statutVehicule.DISPONIBLE);
+        vehicule.setStatut(statutVehicule.DISPONIBLE);
         vehiculeRepository.save(vehicule);
 
         // Technicien → disponible
@@ -181,7 +181,7 @@ public class MaintenanceService {
 
         // Véhicule → HORS_SERVICE
         Vehicule vehicule = ordre.getVehicule();
-        vehicule.changerStatut(statutVehicule.HORS_SERVICE);
+        vehicule.setStatut(statutVehicule.HORS_SERVICE);
         vehiculeRepository.save(vehicule);
 
         // Technicien → disponible

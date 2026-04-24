@@ -4,5 +4,5 @@ public enum userRole {
     SUPER_ADMIN,
     ADMIN,
     CLIENT,
-    MECANICIEN
+    Technicien
 }

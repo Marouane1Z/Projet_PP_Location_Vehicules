@@ -270,7 +270,7 @@ public class VehiculeService {
     public VehiculeResponse changerStatut(Long id, statutVehicule nouveauStatut) {
         Vehicule vehicule = vehiculeRepository.findById(id)
                 .orElseThrow(() -> new VehiculeNotFoundException(id));
-        vehicule.changerStatut(nouveauStatut);
+        vehicule.setStatut(nouveauStatut);
         return toResponse(vehiculeRepository.save(vehicule));
     }
 

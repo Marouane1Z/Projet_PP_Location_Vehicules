@@ -140,7 +140,7 @@ public class ClientService {
     }
 
     // afficherVehicules [PUBLIC]
-    public List<com.autoloc.model.Vehicule> afficherVehicules() {
+    public List<PermisConduire> afficherVehicules() {
         return clientRepository.findAll()
                 .stream()
                 .map(Client::getPermisConduire)

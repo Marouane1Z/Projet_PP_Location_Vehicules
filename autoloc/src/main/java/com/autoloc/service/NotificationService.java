@@ -34,7 +34,7 @@ public class NotificationService {
         Notification notif = new Notification();
         notif.setTitre(request.getTitre());
         notif.setMessage(request.getMessage());
-        notif.setUser(user);
+        notif.setU(user);
         notif.setDateEnvoi(LocalDateTime.now());
 
         return toResponse(notificationRepository.save(notif));
@@ -79,10 +79,10 @@ public class NotificationService {
         r.setMessage(notif.getMessage());
         r.setDateEnvoi(notif.getDateEnvoi());
 
-        if (notif.getUser() != null) {
-            r.setUserId(notif.getUser().getId());
-            r.setUserFirstname(notif.getUser().getFirstname());
-            r.setUserLastname(notif.getUser().getLastname());
+        if (notif.getU() != null) {
+            r.setUserId(notif.getU().getId());
+            r.setUserFirstname(notif.getU().getFirstname());
+            r.setUserLastname(notif.getU().getLastname());
         }
 
         return r;

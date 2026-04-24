@@ -1,5 +1,6 @@
 package com.autoloc.service;
 
+import com.autoloc.dto.MaintenanceResponse;
 import com.autoloc.dto.TechnicienRequest;
 import com.autoloc.dto.TechnicienResponse;
 import com.autoloc.enums.statutMaintenance;
@@ -68,7 +69,7 @@ public class TechnicienService {
         technicien.setLastname(request.getLastname());
         technicien.setEmail(request.getEmail());
         technicien.setPassword(passwordEncoder.encode(request.getPassword()));
-        technicien.setRole(userRole.Mechanicien);
+        technicien.setRole(userRole.Technicien);
         technicien.setActif(true);
 
         // Champs propres à Technicien
@@ -212,7 +213,31 @@ public class TechnicienService {
         ordre.setStatut(statut);
         return toMaintenanceResponse(maintenanceRepository.save(ordre));
     }
+    // ─── findAll ─────────────────────────────────────────
+    @Transactional(readOnly = true)
+    public List<TechnicienResponse> findAll() {
+        return technicienRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
 
+    // ─── findById ────────────────────────────────────────
+    @Transactional(readOnly = true)
+    public TechnicienResponse findById(Long id) {
+        Technicien technicien = technicienRepository.findById(id)
+                .orElseThrow(() -> new TechnicienNotFoundException(id));
+        return toResponse(technicien);
+    }
+
+    // ─── findDisponibles ─────────────────────────────────
+    @Transactional(readOnly = true)
+    public List<TechnicienResponse> findDisponibles() {
+        return technicienRepository.findByDisponibleTrue()
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
     // ─── toResponse ──────────────────────────────────────────────────────
 
     public TechnicienResponse toResponse(Technicien technicien) {
@@ -224,7 +249,7 @@ public class TechnicienService {
         r.setPhone(technicien.getPhone());
         r.setActif(technicien.getActif());
         r.setSpecialite(technicien.getSpecialite());
-        r.setDisponible(technicien.getDisponible());
+        r.setDisponible(technicien.isDisponible());
         return r;
     }
 

@@ -6,54 +6,39 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-
 @Repository
-
 public interface VehiculeRepository extends JpaRepository<Vehicule, Long> {
 
-    // Trouver listes des vehicules en cherchant par status
     List<Vehicule> findByStatut(statutVehicule statut);
 
-    // Trouver listes des vehicules en cherchant par type
     List<Vehicule> findByType(String type);
 
-    // verifier si un vehicule existe en entrant sa matriculation
     boolean existsByImmatriculation(String immatriculation);
 
-    //@Query("SELECT v FROM Vehicule v WHERE TYPE(v) = Voiture")
+    @Query("SELECT v FROM Voiture v")
     List<Vehicule> findAllVoitures();
 
-    //@Query("SELECT v FROM Vehicule v WHERE TYPE(v) = Camion")
+    @Query("SELECT v FROM Camion v")
     List<Vehicule> findAllCamions();
 
-    // trouver par statut et voitures
-    List<Vehicule> findVoituresByStatut(statutVehicule statut);
+    @Query("SELECT v FROM Voiture v WHERE v.statut = :statut")
+    List<Vehicule> findVoituresByStatut(@Param("statut") statutVehicule statut);
 
-    // trouver par statut et camions
-    List<Vehicule> findCamionsByStatut(statutVehicule statut);
+    @Query("SELECT v FROM Camion v WHERE v.statut = :statut")
+    List<Vehicule> findCamionsByStatut(@Param("statut") statutVehicule statut);
 
-    // trouver un vehicule par immatriculation
     Optional<Vehicule> findByImmatriculation(String immatriculation);
 
-    // trouver par marque
-    List<Vehicule> findByMarque(String marque);
+    List<Vehicule> findByMarqueIgnoreCase(String marque);
 
-    //trouver par modele
-    List<Vehicule> findByModele(String modele);
-
-    // ─── Chercher par mot clé (marque OU modele) ──────────────────────────
-    // Containing → cherche si le mot est contenu dans le champ
-    // ex : "peu" → trouve "Peugeot"
+    List<Vehicule> findByModeleIgnoreCase(String modele);
 
     List<Vehicule> findByMarqueContainingIgnoreCaseOrModeleContainingIgnoreCaseOrImmatriculationContainingIgnoreCase(
             String marque,
             String modele,
             String immatriculation
     );
-
 }

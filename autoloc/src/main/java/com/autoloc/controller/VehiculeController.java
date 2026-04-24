@@ -2,7 +2,7 @@ package com.autoloc.controller;
 
 import com.autoloc.dto.VehiculeRequest;
 import com.autoloc.dto.VehiculeResponse;
-import com.autoloc.enums.StatutVehicule;
+import com.autoloc.enums.statutVehicule;
 import com.autoloc.service.VehiculeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -124,7 +124,7 @@ public class VehiculeController {
     @PatchMapping("/{id}/statut")
     public ResponseEntity<VehiculeResponse> changerStatut(
             @PathVariable Long id,
-            @RequestParam StatutVehicule statut) {
+            @RequestParam statutVehicule statut) {
         return ResponseEntity.ok(vehiculeService.changerStatut(id, statut));
     }
 }
