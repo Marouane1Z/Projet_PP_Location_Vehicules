@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Builder
 public class ReservationResponse {
     private Long id;
+    private Long clientId;
     private Long vehiculeId;
     private LocalDate dateDebut;
     private LocalDate dateFin;

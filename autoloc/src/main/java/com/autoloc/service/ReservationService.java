@@ -135,6 +135,12 @@ public class ReservationService {
     }
 
     // les http req GETS
+    public List<ReservationResponse> findAll() {
+        return reservationRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
     public List<ReservationResponse> getReservationsByClient(Long clientId) {
         return reservationRepository.findByClientId(clientId)
                 .stream()
@@ -159,6 +165,7 @@ public class ReservationService {
     private ReservationResponse mapToResponse(Reservation r) {
         return ReservationResponse.builder()
                 .id(r.getId())
+                .clientId(r.getClient().getId())
                 .vehiculeId(r.getVehicule().getId())
                 .dateDebut(r.getDateDebut())
                 .dateFin(r.getDateFin())
