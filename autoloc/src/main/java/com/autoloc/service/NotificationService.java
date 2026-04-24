@@ -1,7 +1,7 @@
 package com.autoloc.service;
 
-import com.autoloc.dto.notification.NotificationRequest;
-import com.autoloc.dto.notification.NotificationResponse;
+import com.autoloc.dto.NotificationRequest;
+import com.autoloc.dto.NotificationResponse;
 import com.autoloc.model.Notification;
 import com.autoloc.model.User;
 import com.autoloc.repository.NotificationRepository;

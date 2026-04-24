@@ -1,6 +1,6 @@
 package com.autoloc.repository;
 
-import com.autoloc.enums.StatutMaintenance;
+import com.autoloc.enums.statutMaintenance;
 import com.autoloc.model.OrdreMaintenance;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -33,7 +33,7 @@ public interface MaintenanceRepository extends JpaRepository<OrdreMaintenance, L
     // Tous les ordres avec un statut donné (SIGNALE, EN_COURS, RESOLU, ABANDONNE)
     // Spring traduit : SELECT * FROM ordre_maintenance WHERE statut = ?
 
-    List<OrdreMaintenance> findByStatut(StatutMaintenance statut);
+    List<OrdreMaintenance> findByStatut(statutMaintenance statut);
 
     // ─── findByTechnicienId ───────────────────────────────────────────────
     // Tous les ordres assignés à un technicien précis
@@ -46,18 +46,18 @@ public interface MaintenanceRepository extends JpaRepository<OrdreMaintenance, L
     // Ordres d'un technicien filtrés par statut
     // ex : tous les ordres EN_COURS du technicien id=3
     List<OrdreMaintenance> findByTechnicienIdAndStatut(
-            Long technicienId, StatutMaintenance statut
+            Long technicienId, statutMaintenance statut
     );
 
     // Ordres d'un véhicule filtrés par statut
     // ex : tous les ordres SIGNALE du véhicule id=5
     List<OrdreMaintenance> findByVehiculeIdAndStatut(
-            Long vehiculeId, StatutMaintenance statut
+            Long vehiculeId, statutMaintenance statut
     );
 
     // Vérifier si un véhicule a un ordre EN_COURS
     // Utile avant de supprimer un véhicule
     boolean existsByVehiculeIdAndStatut(
-            Long vehiculeId, StatutMaintenance statut
+            Long vehiculeId, statutMaintenance statut
     );
 }

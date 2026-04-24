@@ -1,7 +1,7 @@
 package com.autoloc.service;
 
-import com.autoloc.dto.technicien.TechnicienRequest;
-import com.autoloc.dto.technicien.TechnicienResponse;
+import com.autoloc.dto.TechnicienRequest;
+import com.autoloc.dto.TechnicienResponse;
 import com.autoloc.enums.statutMaintenance;
 import com.autoloc.enums.userRole;
 import com.autoloc.exception.MaintenanceNotFoundException;
