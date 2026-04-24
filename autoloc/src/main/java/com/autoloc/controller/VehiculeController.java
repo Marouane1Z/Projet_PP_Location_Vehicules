@@ -30,7 +30,7 @@ public class VehiculeController {
 
     // ─── POST — ajouterVehicule ───────────────────────────────────────────
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<VehiculeResponse> ajouter(@RequestBody @Valid VehiculeRequest request) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)

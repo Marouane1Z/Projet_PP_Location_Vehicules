@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "option")
+@Table(name = "vehicule_option")
 @Getter
 @Setter
 @NoArgsConstructor

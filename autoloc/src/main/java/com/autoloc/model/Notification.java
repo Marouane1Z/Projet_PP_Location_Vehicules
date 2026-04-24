@@ -30,6 +30,6 @@ public class Notification {
 
     @ManyToOne
     @JoinColumn(name = "utilisateur_id")
-    private User u;
+    private User utilisateur;
 
 }

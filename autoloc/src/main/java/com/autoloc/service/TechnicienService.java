@@ -19,20 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * TechnicienService — méthodes du diagramme de classes :
- *
- *   Admin :
- *     +creerTechnicien(Technicien a): Technicien
- *     +modifierTechnicien(BIGINT id): void
- *     +supprimerTechnicien(BIGINT id): void
- *
- *   Technicien :
- *     +receptionOrdre(id): void
- *     +demarrerReparation(id): void
- *     +cloturerReparation(id): void
- *     +UpdateStatus(StatutMaintenance s): void
- */
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -44,16 +30,6 @@ public class TechnicienService {
 
     // ─── creerTechnicien ─────────────────────────────────────────────────
 
-    /**
-     * Diagramme Admin : +creerTechnicien(Technicien a): Technicien
-     *
-     * Crée un compte technicien.
-     * Appelé uniquement par l'Admin — le technicien ne peut pas s'inscrire seul.
-     * Règles métier :
-     *   - email unique
-     *   - mot de passe hashé avec BCrypt
-     *   - disponible = true par défaut
-     */
     public TechnicienResponse creerTechnicien(TechnicienRequest request) {
 
         if (technicienRepository.findByEmail(request.getEmail()).isPresent()) {
@@ -81,11 +57,6 @@ public class TechnicienService {
 
     // ─── modifierTechnicien ───────────────────────────────────────────────
 
-    /**
-     * Diagramme Admin : +modifierTechnicien(BIGINT id): void
-     *
-     * Modifie les informations d'un technicien existant.
-     */
     public TechnicienResponse modifierTechnicien(Long id, TechnicienRequest request) {
 
         Technicien technicien = technicienRepository.findById(id)
@@ -103,12 +74,6 @@ public class TechnicienService {
 
     // ─── supprimerTechnicien ──────────────────────────────────────────────
 
-    /**
-     * Diagramme Admin : +supprimerTechnicien(BIGINT id): void
-     *
-     * Règle métier :
-     *   - impossible si le technicien a des ordres EN_COURS
-     */
     public void supprimerTechnicien(Long id) {
 
         Technicien technicien = technicienRepository.findById(id)
@@ -128,13 +93,6 @@ public class TechnicienService {
     }
 
     // ─── receptionOrdre ───────────────────────────────────────────────────
-
-    /**
-     * Diagramme Technicien : +receptionOrdre(id): void
-     *
-     * Le technicien prend connaissance de l'ordre assigné.
-     * Statut passe de SIGNALE → EN_COURS.
-     */
     public MaintenanceResponse receptionOrdre(Long ordreId) {
 
         OrdreMaintenance ordre = maintenanceRepository.findById(ordreId)
@@ -149,13 +107,6 @@ public class TechnicienService {
     }
 
     // ─── demarrerReparation ───────────────────────────────────────────────
-
-    /**
-     * Diagramme Technicien : +demarrerReparation(id): void
-     *
-     * Le technicien démarre officiellement la réparation.
-     * Statut = EN_COURS.
-     */
     public MaintenanceResponse demarrerReparation(Long ordreId) {
 
         OrdreMaintenance ordre = maintenanceRepository.findById(ordreId)
@@ -166,14 +117,6 @@ public class TechnicienService {
     }
 
     // ─── cloturerReparation ───────────────────────────────────────────────
-
-    /**
-     * Diagramme Technicien : +cloturerReparation(id): void
-     *
-     * Le technicien termine la réparation.
-     * Délègue à MaintenanceService.resoudre() pour la logique complète
-     * (véhicule → DISPONIBLE, technicien → disponible = true).
-     */
     public MaintenanceResponse cloturerReparation(Long ordreId, Double coutReel) {
 
         OrdreMaintenance ordre = maintenanceRepository.findById(ordreId)
@@ -199,12 +142,6 @@ public class TechnicienService {
 
     // ─── updateStatus ─────────────────────────────────────────────────────
 
-    /**
-     * Diagramme Technicien : +UpdateStatus(StatutMaintenance s): void
-     *
-     * Change manuellement le statut d'un ordre.
-     * Utilisé pour des corrections ou cas particuliers.
-     */
     public MaintenanceResponse updateStatus(Long ordreId, statutMaintenance statut) {
 
         OrdreMaintenance ordre = maintenanceRepository.findById(ordreId)

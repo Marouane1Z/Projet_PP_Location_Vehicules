@@ -34,7 +34,7 @@ public class NotificationService {
         Notification notif = new Notification();
         notif.setTitre(request.getTitre());
         notif.setMessage(request.getMessage());
-        notif.setU(user);
+        notif.setUtilisateur(user);
         notif.setDateEnvoi(LocalDateTime.now());
 
         return toResponse(notificationRepository.save(notif));
@@ -53,7 +53,7 @@ public class NotificationService {
     @Transactional(readOnly = true)
     public List<NotificationResponse> findByUtilisateurId(Long userId) {
         return notificationRepository
-                .findByUserIdOrderByDateEnvoiDesc(userId)
+                .findByUtilisateurIdOrderByDateEnvoiDesc(userId)
                 .stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
@@ -79,10 +79,10 @@ public class NotificationService {
         r.setMessage(notif.getMessage());
         r.setDateEnvoi(notif.getDateEnvoi());
 
-        if (notif.getU() != null) {
-            r.setUserId(notif.getU().getId());
-            r.setUserFirstname(notif.getU().getFirstname());
-            r.setUserLastname(notif.getU().getLastname());
+        if (notif.getUtilisateur() != null) {
+            r.setUserId(notif.getUtilisateur().getId());
+            r.setUserFirstname(notif.getUtilisateur().getFirstname());
+            r.setUserLastname(notif.getUtilisateur().getLastname());
         }
 
         return r;

@@ -20,7 +20,7 @@ public class ClientRequest {
     private LocalDate dateNaissance;
 
     private String          permisNumero;
-    private categoriePermis permisCategorie;
+    private categoriePermis permisCategorie ;
     private LocalDate       permisObtention;
     private LocalDate       permisExpiration;
     private paysEmission    permisPaysEmission;

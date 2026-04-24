@@ -9,10 +9,10 @@ import java.util.Optional;
 
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
-    List<Notification> findByUId(Long userId);
+    List<Notification> findByUtilisateurId(Long userId);
 
     // Notifications non lues d'un utilisateur
-    List<Notification> findByUserIdOrderByDateEnvoiDesc(Long userId);
+    List<Notification> findByUtilisateurIdOrderByDateEnvoiDesc(Long utilisateurId);
 
 }
 
