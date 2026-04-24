@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -48,7 +49,7 @@ public class PaiementService {
         paiement.setMontant(paiementRequest.getMontant());
         paiement.setModePaiement(paiementRequest.getModePaiement());
         paiement.setStatutPaiement(statutPaiement.CONFIRME);
-        paiement.setDatePaiement(LocalDateTime.now());
+        paiement.setDatePaiement(LocalDate.now());
 
         // 5. Sauvegarder
         paiementRepository.save(paiement);
@@ -71,7 +72,7 @@ public class PaiementService {
 
         // 3. Confirmer
         paiement.setStatutPaiement(statutPaiement.CONFIRME);
-        paiement.setDatePaiement(LocalDateTime.now());
+        paiement.setDatePaiement(LocalDate.now());
         paiementRepository.save(paiement);
 
         return mapToResponse(paiement);
@@ -138,7 +139,7 @@ public class PaiementService {
         PaiementResponse response = new PaiementResponse();
         response.setId(paiement.getId());
         response.setMontant(paiement.getMontant());
-        response.setStatutPaiement(paiement.getStatutPaiement());
+        response.setStatut(paiement.getStatutPaiement());
         response.setDatePaiement(paiement.getDatePaiement());
         response.setModePaiement(paiement.getModePaiement());
         return response;
