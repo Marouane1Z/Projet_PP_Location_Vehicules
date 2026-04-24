@@ -107,7 +107,7 @@ public class ClientController {
         );
     }
 
-    //POST /api/clients/me/paiement/{reservationId}
+    // POST /api/clients/me/paiement/{reservationId}
     @PostMapping("/me/paiement/{reservationId}")
     @PreAuthorize("hasRole('CLIENT')")
     public ResponseEntity<Void> reglerPaiement(
