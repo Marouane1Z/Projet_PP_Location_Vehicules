@@ -1,8 +1,8 @@
 package com.autoloc.service;
 
-import com.autoloc.dto.vehicule.VehiculeRequest;
-import com.autoloc.dto.vehicule.VehiculeResponse;
-import com.autoloc.enums.StatutVehicule;
+import com.autoloc.dto.VehiculeRequest;
+import com.autoloc.dto.VehiculeResponse;
+import com.autoloc.enums.statutVehicule;
 import com.autoloc.exception.VehiculeNotFoundException;
 import com.autoloc.model.Camion;
 import com.autoloc.model.Option;
@@ -82,7 +82,7 @@ public class VehiculeService {
         vehicule.setTypeBoiteVitesse(request.getTypeBoite());
 
         // Statut par défaut : DISPONIBLE
-        vehicule.setStatut(StatutVehicule.DISPONIBLE);
+        vehicule.setStatut(statutVehicule.DISPONIBLE);
 
         return vehicule;
     }
@@ -267,7 +267,7 @@ public class VehiculeService {
      * Change le statut d'un véhicule.
      * Appelé par MaintenanceService et ReservationService.
      */
-    public VehiculeResponse changerStatut(Long id, StatutVehicule nouveauStatut) {
+    public VehiculeResponse changerStatut(Long id, statutVehicule nouveauStatut) {
         Vehicule vehicule = vehiculeRepository.findById(id)
                 .orElseThrow(() -> new VehiculeNotFoundException(id));
         vehicule.changerStatut(nouveauStatut);
@@ -281,14 +281,14 @@ public class VehiculeService {
                 .orElseThrow(() -> new VehiculeNotFoundException(id));
 
         // Règle métier : impossible de supprimer si LOUE
-        if (vehicule.getStatut() == StatutVehicule.LOUE) {
+        if (vehicule.getStatut() == statutVehicule.LOUE) {
             throw new IllegalStateException(
                     "Impossible de supprimer un véhicule en cours de location"
             );
         }
 
         // Règle métier : impossible de supprimer si EN_MAINTENANCE
-        if (vehicule.getStatut() == StatutVehicule.EN_MAINTENANCE) {
+        if (vehicule.getStatut() == statutVehicule.EN_MAINTENANCE) {
             throw new IllegalStateException(
                     "Impossible de supprimer un véhicule en maintenance"
             );

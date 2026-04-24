@@ -1,7 +1,7 @@
 package com.autoloc.service;
 
-import com.autoloc.dto.maintenance.MaintenanceRequest;
-import com.autoloc.dto.maintenance.MaintenanceResponse;
+import com.autoloc.dto.MaintenanceRequest;
+import com.autoloc.dto.MaintenanceResponse;
 import com.autoloc.enums.statutMaintenance;
 import com.autoloc.enums.statutVehicule;
 import com.autoloc.exception.MaintenanceNotFoundException;

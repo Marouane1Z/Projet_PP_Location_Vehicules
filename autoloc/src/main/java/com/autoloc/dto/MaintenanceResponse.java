@@ -1,6 +1,6 @@
 package com.autoloc.dto;
 
-import com.autoloc.enums.StatutMaintenance;
+import com.autoloc.enums.statutMaintenance;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -15,7 +15,7 @@ public class MaintenanceResponse {
 
     private Long id;
     private String typeReparation;
-    private StatutMaintenance statut;
+    private statutMaintenance statut;
     private LocalDate dateSignal;
     private LocalDate dateResolution;
     private Double coutReparation;

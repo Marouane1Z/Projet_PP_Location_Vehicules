@@ -1,6 +1,6 @@
 package com.autoloc.dto;
 
-import com.autoloc.enums.StatutVehicule;
+import com.autoloc.enums.statutVehicule;
 import lombok.*;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class VehiculeResponse {
     private String modele;
     private String immatriculation;
     private Double prixParJour;
-    private StatutVehicule statut;
+    private statutVehicule statut;
 
     // Champs supplémentaires utiles
 
