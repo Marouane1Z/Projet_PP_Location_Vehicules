@@ -1,0 +1,50 @@
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-icon">🚗</div>
+      <div class="logo-text">
+        <span class="logo-name">AutoLoc</span>
+        <span class="logo-sub">LOCATION VÉHICULES</span>
+      </div>
+    </div>
+
+    <div class="user-info">
+      <div class="user-avatar">{{ auth.initials }}</div>
+      <div>
+        <div class="user-name">{{ auth.fullName }}</div>
+        <div class="user-role">Client</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/client/dashboard" routerLinkActive="active">
+        <span class="nav-icon">⊞</span> Tableau de bord
+      </a>
+      <a routerLink="/client/vehicules" routerLinkActive="active">
+        <span class="nav-icon">🚗</span> Véhicules
+      </a>
+      <a routerLink="/client/reservations" routerLinkActive="active">
+        <span class="nav-icon">📅</span> Réservations
+      </a>
+      <a routerLink="/client/paiements" routerLinkActive="active">
+        <span class="nav-icon">💳</span> Paiements
+      </a>
+      <a routerLink="/client/notifications" routerLinkActive="active">
+        <span class="nav-icon">🔔</span> Notifications
+      </a>
+      <a routerLink="/client/profil" routerLinkActive="active">
+        <span class="nav-icon">👤</span> Mon profil
+      </a>
+    </nav>
+
+    <button class="logout-btn" (click)="auth.logout()">
+      <span>⬛</span> Déconnexion
+    </button>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

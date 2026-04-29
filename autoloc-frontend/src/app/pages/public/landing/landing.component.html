@@ -1,0 +1,109 @@
+<div class="landing">
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="logo-icon">🚗</div>
+      <div class="logo-text">
+        <span class="logo-name">AutoLoc</span>
+        <span class="logo-sub">LOCATION VÉHICULES</span>
+      </div>
+    </div>
+    <div class="navbar-actions">
+      <a routerLink="/login" class="btn-nav-outline">Connexion</a>
+      <a routerLink="/register" class="btn-nav-primary">S'inscrire</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">⭐ Plateforme de gestion professionnelle</div>
+    <h1 class="hero-title">Location de véhicules<br><span class="hero-highlight">simplifiée.</span></h1>
+    <p class="hero-subtitle">
+      Voitures et camions disponibles en ligne — réservez, payez et gérez<br>
+      vos locations depuis votre espace personnel.
+    </p>
+    <div class="hero-actions">
+      <a routerLink="/register" class="btn-primary-large">→ Commencer</a>
+      <a routerLink="/login" class="btn-outline-large">🔍 Voir les véhicules</a>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item"><span class="stat-value">120+</span><span class="stat-label">Véhicules disponibles</span></div>
+      <div class="stat-item"><span class="stat-value">2 400+</span><span class="stat-label">Locations effectuées</span></div>
+      <div class="stat-item"><span class="stat-value">98%</span><span class="stat-label">Clients satisfaits</span></div>
+      <div class="stat-item"><span class="stat-value">24h</span><span class="stat-label">Support disponible</span></div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <h2>Pourquoi choisir AutoLoc ?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">✅</div>
+        <h3>Réservation en ligne</h3>
+        <p>Réservez en quelques clics, disponibilité vérifiée en temps réel.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3>Paiement sécurisé</h3>
+        <p>Facturation PDF automatique, paiement en ligne ou en agence.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔧</div>
+        <h3>Parc entretenu</h3>
+        <p>Maintenance planifiée, chaque véhicule contrôlé avant location.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works">
+    <h2>Comment ça marche ?</h2>
+    <div class="steps-row">
+      <div class="step">
+        <div class="step-number">01</div>
+        <h3>Inscrivez-vous</h3>
+        <p>Créez votre compte et ajoutez votre permis de conduire.</p>
+      </div>
+      <div class="step-divider"></div>
+      <div class="step">
+        <div class="step-number">02</div>
+        <h3>Choisissez</h3>
+        <p>Parcourez le catalogue, filtrez par type, prix, options.</p>
+      </div>
+      <div class="step-divider"></div>
+      <div class="step">
+        <div class="step-number">03</div>
+        <h3>Réservez & payez</h3>
+        <p>Confirmation immédiate, facture envoyée par email.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-box">
+      <h2>Prêt à réserver votre véhicule ?</h2>
+      <p>Inscription gratuite — accès immédiat au catalogue.</p>
+      <a routerLink="/register" class="btn-primary-large">→ Créer mon compte</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span>© 2026 AutoLoc — Projet académique</span>
+    <div class="footer-links">
+      <a routerLink="/login">Connexion</a>
+      <a routerLink="/register">Inscription</a>
+    </div>
+  </footer>
+
+  <!-- DEMO BAR -->
+  <div class="demo-bar">
+    <span>Démo :</span>
+    <button class="demo-btn client" (click)="loginDemo('client')">Client</button>
+    <button class="demo-btn admin" (click)="loginDemo('admin')">Admin</button>
+    <button class="demo-btn super" (click)="loginDemo('super')">Super Admin</button>
+    <button class="demo-btn meca" (click)="loginDemo('meca')">Mécanicien</button>
+  </div>
+</div>

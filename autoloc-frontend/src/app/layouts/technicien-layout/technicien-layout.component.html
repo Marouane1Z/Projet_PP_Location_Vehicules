@@ -1,0 +1,31 @@
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-icon">🚗</div>
+      <div class="logo-text">
+        <span class="logo-name">AutoLoc</span>
+        <span class="logo-sub">LOCATION VÉHICULES</span>
+      </div>
+    </div>
+
+    <div class="user-info">
+      <div class="user-avatar">{{ auth.initials }}</div>
+      <div>
+        <div class="user-name">{{ auth.fullName }}</div>
+        <div class="user-role">Mécanicien</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/technicien/dashboard" routerLinkActive="active"><span class="nav-icon">⊞</span> Tableau de bord</a>
+      <a routerLink="/technicien/ordres" routerLinkActive="active"><span class="nav-icon">🔧</span> Mes ordres</a>
+      <a routerLink="/technicien/profil" routerLinkActive="active"><span class="nav-icon">👤</span> Mon profil</a>
+    </nav>
+
+    <button class="logout-btn" (click)="auth.logout()"><span>⬛</span> Déconnexion</button>
+  </aside>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

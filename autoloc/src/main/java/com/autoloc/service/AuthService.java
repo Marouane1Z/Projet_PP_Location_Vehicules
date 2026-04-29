@@ -35,7 +35,7 @@ private final JwtUtil jwtUtil ;
         // gENERER LE TOKEN JWT
         String token = jwtUtil.generateToken(user) ;
         // retourner l'utilisateur
-        return new JwtResponse(token,user.getRole(), user.getEmail());
+        return new JwtResponse(token, user.getRole(), user.getEmail(), user.getId(), user.getFirstname(), user.getLastname());
         }
 
     // Créer un compte Client
@@ -60,7 +60,7 @@ private final JwtUtil jwtUtil ;
         userRepository.save(client) ;
         String token = jwtUtil.generateToken(client) ;
 
-        return new JwtResponse(token, client.getRole(), client.getEmail());
+        return new JwtResponse(token, client.getRole(), client.getEmail(), client.getId(), client.getFirstname(), client.getLastname());
     }
 
 

@@ -1,0 +1,10 @@
+.page { max-width: 800px; }
+.notif-list { display: flex; flex-direction: column; gap: 2px; }
+.notif-item { display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; cursor: pointer; transition: background 0.2s; position: relative;
+  &.unread { background: rgba(249,115,22,0.05); border-color: rgba(249,115,22,0.15); }
+  &:hover { background: var(--bg-card-hover); }
+}
+.notif-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
+.notif-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.notif-date { font-size: 12px; color: var(--text-muted); }
+.empty { text-align: center; padding: 40px; color: var(--text-muted); }

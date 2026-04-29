@@ -310,7 +310,7 @@ public class VehiculeService {
 
         // Champs communs
         r.setId(vehicule.getId());
-        r.setType(vehicule.getType());
+        r.setType(vehicule instanceof Voiture ? "VOITURE" : "CAMION");
         r.setMarque(vehicule.getMarque());
         r.setModele(vehicule.getModele());
         r.setImmatriculation(vehicule.getImmatriculation());

@@ -1,0 +1,106 @@
+<div class="page">
+  <div class="page-header">
+    <p class="breadcrumb">/admin/vehicules</p>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h1>🚗 Gestion des véhicules</h1>
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="search-wrap">
+          <span>🔍</span>
+          <input type="text" [(ngModel)]="keyword" (input)="search()" placeholder="Rechercher...">
+        </div>
+        <button class="btn btn-primary" (click)="showAddModal=true">+ Ajouter</button>
+      </div>
+    </div>
+    <p class="subtitle">{{ vehicules.length }} véhicules dans le parc</p>
+  </div>
+
+  <div class="vehicules-grid">
+    <div class="vehicule-card" *ngFor="let v of filtered">
+      <div class="card-top">
+        <span class="type-badge" [class.camion]="v.type==='CAMION'">{{ v.type === 'VOITURE' ? 'Voiture' : 'Camion' }}</span>
+        <span class="badge" [ngClass]="getStatutClass(v.statut)">{{ getStatutLabel(v.statut) }}</span>
+      </div>
+      <div class="vehicule-img">
+        <span>{{ v.type === 'VOITURE' ? '🚗' : '🚛' }}</span>
+        <small>photo véhicule</small>
+      </div>
+      <div class="vehicule-info">
+        <h3>{{ v.marque }} {{ v.modele }}</h3>
+        <p class="immat">{{ v.immatriculation }}</p>
+        <p class="specs" *ngIf="v.type==='VOITURE'">{{ v.typeCarburant }} · {{ v.typeBoite }} · {{ v.nbPlaces }}pl</p>
+        <p class="specs" *ngIf="v.type==='CAMION'">{{ v.tonnage }}T · {{ v.volume }}m³</p>
+        <div class="options" *ngIf="v.options?.length">
+          <span class="option-tag" *ngFor="let o of v.options">{{ o.nom }}</span>
+        </div>
+        <div class="card-footer">
+          <span class="prix">{{ v.prixParJour }}€<small>/j</small></span>
+          <div style="display:flex;gap:8px">
+            <button class="btn-text" (click)="openEdit(v)">✏️ Modifier</button>
+            <button class="btn-text danger" (click)="selected=v;showPanneModal=true" *ngIf="v.statut==='DISPONIBLE'">🔧 Panne</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL AJOUTER -->
+  <div class="modal-overlay" *ngIf="showAddModal" (click)="showAddModal=false">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header"><h3>Ajouter un véhicule</h3><button class="close-btn" (click)="showAddModal=false">✕</button></div>
+      <div class="form-group"><label>Type</label><select [(ngModel)]="newV.type"><option value="VOITURE">Voiture</option><option value="CAMION">Camion</option></select></div>
+      <div class="form-row">
+        <div class="form-group"><label>Marque</label><input [(ngModel)]="newV.marque" placeholder="Peugeot"></div>
+        <div class="form-group"><label>Modèle</label><input [(ngModel)]="newV.modele" placeholder="308"></div>
+      </div>
+      <div class="form-group"><label>Immatriculation</label><input [(ngModel)]="newV.immatriculation" placeholder="AB-123-CD"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Prix/jour (€)</label><input type="number" [(ngModel)]="newV.prixParJour"></div>
+        <div class="form-group"><label>Caution (€)</label><input type="number" [(ngModel)]="newV.caution"></div>
+      </div>
+      <div class="form-group"><label>Statut</label><select [(ngModel)]="newV.statut"><option value="DISPONIBLE">Disponible</option><option value="EN_MAINTENANCE">En maintenance</option><option value="HORS_SERVICE">Hors service</option></select></div>
+      <div class="modal-footer"><button class="btn btn-outline" (click)="showAddModal=false">Annuler</button><button class="btn btn-primary" (click)="ajouter()">➕ Ajouter</button></div>
+    </div>
+  </div>
+
+  <!-- MODAL MODIFIER -->
+  <div class="modal-overlay" *ngIf="showEditModal" (click)="showEditModal=false">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header"><h3>Modifier — {{ selected?.marque }} {{ selected?.modele }}</h3><button class="close-btn" (click)="showEditModal=false">✕</button></div>
+      <div class="form-group"><label>Type</label><select [(ngModel)]="newV.type"><option value="VOITURE">Voiture</option><option value="CAMION">Camion</option></select></div>
+      <div class="form-row">
+        <div class="form-group"><label>Marque</label><input [(ngModel)]="newV.marque"></div>
+        <div class="form-group"><label>Modèle</label><input [(ngModel)]="newV.modele"></div>
+      </div>
+      <div class="form-group"><label>Immatriculation</label><input [(ngModel)]="newV.immatriculation"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Prix/jour (€)</label><input type="number" [(ngModel)]="newV.prixParJour"></div>
+        <div class="form-group"><label>Caution (€)</label><input type="number" [(ngModel)]="newV.caution"></div>
+      </div>
+      <div class="form-group"><label>Statut</label><select [(ngModel)]="newV.statut"><option value="DISPONIBLE">Disponible</option><option value="LOUE">Loué</option><option value="EN_MAINTENANCE">En maintenance</option><option value="HORS_SERVICE">Hors service</option></select></div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" (click)="showEditModal=false">Annuler</button>
+        <button class="btn btn-danger" (click)="supprimer()">🗑️ Supprimer</button>
+        <button class="btn btn-primary" (click)="modifier()">💾 Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PANNE -->
+  <div class="modal-overlay" *ngIf="showPanneModal" (click)="showPanneModal=false">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header"><h3>Signaler une panne — {{ selected?.marque }} {{ selected?.modele }}</h3><button class="close-btn" (click)="showPanneModal=false">✕</button></div>
+      <div class="form-group"><label>Type de panne</label>
+        <select [(ngModel)]="typePanne">
+          <option value="">Sélectionner...</option>
+          <option>Moteur</option><option>Freins</option><option>Carrosserie</option><option>Électrique</option><option>Pneus</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Description</label><textarea [(ngModel)]="descPanne" rows="4" placeholder="Décrivez le problème constaté..."></textarea></div>
+      <div class="alert-info">⚠️ Le véhicule passera automatiquement en statut <strong style="color:var(--warning)">EN_MAINTENANCE</strong>. Un ordre de maintenance sera créé.</div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" (click)="showPanneModal=false">Annuler</button>
+        <button class="btn btn-danger" (click)="signalerPanne()">🔧 Signaler la panne</button>
+      </div>
+    </div>
+  </div>
+</div>

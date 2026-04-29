@@ -1,0 +1,18 @@
+.page { max-width: 1200px; }
+.dashboard-grid { display: grid; grid-template-columns: 1fr 360px; gap: 24px; margin-bottom: 24px; }
+.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+  h3 { font-size: 16px; font-weight: 700; }
+}
+.see-all { font-size: 13px; color: var(--primary); }
+.notif-card { h3 { font-size: 16px; font-weight: 700; margin-bottom: 20px; } }
+.notif-item { display: flex; gap: 12px; margin-bottom: 16px;
+  .notif-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;
+    &.orange { background: rgba(249,115,22,0.15); } &.blue { background: rgba(59,130,246,0.15); }
+  }
+  p { font-size: 13px; margin-bottom: 2px; } span { font-size: 11px; color: var(--text-muted); }
+}
+.accès-rapides { h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; } }
+.rapides-grid { display: flex; gap: 12px; }
+.rapide-item { display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: 10px; font-size: 13px; font-weight: 500; transition: border-color 0.2s;
+  &:hover { border-color: var(--primary); color: var(--primary); }
+}

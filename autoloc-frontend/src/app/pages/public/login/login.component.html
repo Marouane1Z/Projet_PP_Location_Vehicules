@@ -1,0 +1,53 @@
+<div class="login-page">
+  <div class="login-box">
+    <div class="logo">
+      <div class="logo-icon">🚗</div>
+      <h1>AutoLoc</h1>
+      <p>Connectez-vous à votre espace</p>
+    </div>
+
+    <div class="form">
+      <div class="form-group">
+        <label>Adresse email</label>
+        <div class="input-wrap">
+          <span class="input-icon">✉️</span>
+          <input type="email" [(ngModel)]="email" placeholder="vous@exemple.fr">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Mot de passe</label>
+        <div class="input-wrap">
+          <span class="input-icon">🔒</span>
+          <input type="password" [(ngModel)]="password" placeholder="••••••••" (keyup.enter)="login()">
+        </div>
+        <a href="#" class="forgot">Mot de passe oublié ?</a>
+      </div>
+
+      <div class="error-msg" *ngIf="error">{{ error }}</div>
+
+      <button class="btn-login" (click)="login()" [disabled]="loading">
+        {{ loading ? 'Connexion...' : 'Se connecter' }}
+      </button>
+
+      <div class="divider"><span>Accès démo rapide</span></div>
+
+      <div class="demo-grid">
+        <button class="demo-btn client" (click)="loginDemo('client')">👤 Client<br><small>Démo</small></button>
+        <button class="demo-btn admin"  (click)="loginDemo('admin')">🛡️ Admin<br><small>Démo</small></button>
+        <button class="demo-btn super"  (click)="loginDemo('super')">👑 Super Admin<br><small>Démo</small></button>
+        <button class="demo-btn meca"   (click)="loginDemo('meca')">🔧 Mécanicien<br><small>Démo</small></button>
+      </div>
+    </div>
+
+    <p class="register-link">Pas encore de compte ? <a routerLink="/register">S'inscrire</a></p>
+  </div>
+
+  <div class="demo-bar">
+    <span>Démo :</span>
+    <button class="db-btn client" (click)="loginDemo('client')">Client</button>
+    <button class="db-btn admin"  (click)="loginDemo('admin')">Admin</button>
+    <button class="db-btn super"  (click)="loginDemo('super')">Super Admin</button>
+    <button class="db-btn meca"   (click)="loginDemo('meca')">Mécanicien</button>
+  </div>
+</div>

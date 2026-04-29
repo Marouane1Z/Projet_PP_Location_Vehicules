@@ -1,0 +1,7 @@
+.page { max-width: 1200px; }
+.filtres { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+.filtre-btn { padding: 8px 16px; border-radius: 8px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.05em;
+  &.active { background: var(--primary); color: white; border-color: var(--primary); }
+  &:hover:not(.active) { border-color: var(--primary); color: var(--primary); }
+}
+.actions { display: flex; gap: 8px; }

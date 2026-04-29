@@ -1,0 +1,42 @@
+<div class="layout">
+  <aside class="sidebar" [class.super]="isSuperAdmin">
+    <div class="sidebar-header">
+      <div class="logo-icon">🚗</div>
+      <div class="logo-text">
+        <span class="logo-name">AutoLoc</span>
+        <span class="logo-sub">LOCATION VÉHICULES</span>
+      </div>
+    </div>
+
+    <div class="user-info">
+      <div class="user-avatar">{{ auth.initials }}</div>
+      <div>
+        <div class="user-name">{{ auth.fullName }}</div>
+        <div class="user-role" [class.super-role]="isSuperAdmin">
+          {{ isSuperAdmin ? 'Super Admin' : 'Administrateur' }}
+        </div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/admin/dashboard" routerLinkActive="active"><span class="nav-icon">⊞</span> Tableau de bord</a>
+      <a routerLink="/admin/vehicules" routerLinkActive="active"><span class="nav-icon">🚗</span> Véhicules</a>
+      <a routerLink="/admin/clients" routerLinkActive="active"><span class="nav-icon">👥</span> Clients</a>
+      <a routerLink="/admin/reservations" routerLinkActive="active"><span class="nav-icon">📅</span> Réservations</a>
+      <a routerLink="/admin/paiements" routerLinkActive="active"><span class="nav-icon">💳</span> Paiements</a>
+      <a routerLink="/admin/maintenance" routerLinkActive="active"><span class="nav-icon">🔧</span> Maintenance</a>
+      <a routerLink="/admin/rapports" routerLinkActive="active"><span class="nav-icon">📊</span> Rapports</a>
+      <a *ngIf="isSuperAdmin" routerLink="/admin/administrateurs" routerLinkActive="active" class="super-link">
+        <span class="nav-icon">👑</span> Administrateurs
+      </a>
+    </nav>
+
+    <button class="logout-btn" (click)="auth.logout()">
+      <span>⬛</span> Déconnexion
+    </button>
+  </aside>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

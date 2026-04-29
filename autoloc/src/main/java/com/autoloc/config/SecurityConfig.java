@@ -49,7 +49,8 @@ public class SecurityConfig {
                             .requestMatchers("/swagger-ui/**").permitAll()
                             .requestMatchers("/v3/api-docs/**").permitAll()
                             // Tout le reste nécessite un token
-                            .anyRequest().authenticated()
+                            //.anyRequest().authenticated()
+                            .anyRequest().permitAll()
                     )
                     .addFilterBefore(jwtFilter,
                             UsernamePasswordAuthenticationFilter.class);

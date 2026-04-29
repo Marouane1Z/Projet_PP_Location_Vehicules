@@ -1,0 +1,47 @@
+<div class="page">
+  <div class="page-header">
+    <p class="breadcrumb">/technicien/dashboard</p>
+    <h1>⊞ Tableau de bord</h1>
+    <p class="subtitle">Bienvenue, {{ auth.currentUser?.firstname }} — {{ today }}</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-info"><div class="stat-label">Ordres actifs</div><div class="stat-value">{{ actifs }}</div></div><div class="stat-icon" style="background:rgba(245,158,11,0.15)">🔧</div></div>
+    <div class="stat-card"><div class="stat-info"><div class="stat-label">Résolus ce mois</div><div class="stat-value">{{ resolus }}</div></div><div class="stat-icon" style="background:rgba(34,197,94,0.15)">✅</div></div>
+    <div class="stat-card"><div class="stat-info"><div class="stat-label">Véhicules traités</div><div class="stat-value">{{ ordres.length }}</div></div><div class="stat-icon" style="background:rgba(59,130,246,0.15)">🚗</div></div>
+    <div class="stat-card"><div class="stat-info"><div class="stat-label">Spécialité</div><div class="stat-value" style="font-size:18px">Mécanique générale</div><div class="stat-sub">Certification active</div></div><div class="stat-icon" style="background:rgba(249,115,22,0.15)">⭐</div></div>
+  </div>
+
+  <div class="dashboard-grid">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <h3>Mes ordres en cours</h3>
+        <a routerLink="/technicien/ordres" style="font-size:13px;color:var(--warning)">→ Tout voir</a>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead><tr><th>VÉHICULE</th><th>TYPE</th><th>STATUT</th><th>DATE</th><th></th></tr></thead>
+          <tbody>
+            <tr *ngFor="let o of ordresEnCours">
+              <td>{{ o.vehiculeMarque }} {{ o.vehiculeModele }} ({{ o.immatriculation }})</td>
+              <td>{{ o.typeReparation }}</td>
+              <td><span class="badge" [ngClass]="getStatutClass(o.statut)">{{ getStatutLabel(o.statut) }}</span></td>
+              <td>{{ o.dateSignal | date:'dd/MM/yyyy' }}</td>
+              <td><button class="btn btn-success btn-sm">✓ Clôturer</button></td>
+            </tr>
+            <tr *ngIf="ordresEnCours.length===0">
+              <td colspan="5" style="text-align:center;color:var(--text-muted)">Aucun ordre en cours</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card recap">
+      <h3>Récapitulatif</h3>
+      <div class="recap-item"><span>Signalés non assignés</span><span class="count danger">2</span></div>
+      <div class="recap-item"><span>En cours aujourd'hui</span><span class="count info">{{ ordresEnCours.length }}</span></div>
+      <div class="recap-item"><span>Résolus cette semaine</span><span class="count success">3</span></div>
+    </div>
+  </div>
+</div>

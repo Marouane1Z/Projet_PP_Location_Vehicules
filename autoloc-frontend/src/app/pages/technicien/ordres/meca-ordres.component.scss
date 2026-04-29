@@ -1,0 +1,9 @@
+.page { max-width: 1100px; }
+.filtres { display: flex; gap: 8px; margin-bottom: 24px; }
+.filtre-btn { padding: 8px 18px; border-radius: 8px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+  &.active { background: var(--warning); color: white; border-color: var(--warning); }
+  &.assigne.active { background: var(--warning); border-color: var(--warning); }
+  &.en-cours.active { background: var(--info); border-color: var(--info); }
+  &.resolu.active { background: var(--success); border-color: var(--success); }
+  &:hover:not(.active) { border-color: var(--warning); color: var(--warning); }
+}

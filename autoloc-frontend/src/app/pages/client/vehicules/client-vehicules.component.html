@@ -1,0 +1,74 @@
+<div class="page">
+  <div class="page-header">
+    <p class="breadcrumb">/client/vehicules</p>
+    <h1>🚗 Catalogue véhicules</h1>
+    <p class="subtitle">{{ filtered.length }} véhicules disponibles</p>
+  </div>
+
+  <div class="success-banner" *ngIf="reservationOk">✅ Réservation envoyée ! Elle sera confirmée par un administrateur.</div>
+
+  <div class="filters">
+    <div class="search-wrap">
+      <span>🔍</span>
+      <input type="text" [(ngModel)]="keyword" (input)="applyFilter()" placeholder="Rechercher marque, modèle...">
+    </div>
+    <button class="filter-btn" [class.active]="filtre==='TOUS'" (click)="setFiltre('TOUS')">Tous</button>
+    <button class="filter-btn" [class.active]="filtre==='VOITURE'" (click)="setFiltre('VOITURE')">Voitures</button>
+    <button class="filter-btn" [class.active]="filtre==='CAMION'" (click)="setFiltre('CAMION')">Camions</button>
+    <button class="filter-btn" [class.active]="disponibleSeulement" (click)="disponibleSeulement=!disponibleSeulement;applyFilter()">✅ Disponibles seulement</button>
+  </div>
+
+  <div class="vehicules-grid">
+    <div class="vehicule-card" *ngFor="let v of filtered">
+      <div class="card-top">
+        <span class="type-badge" [class.camion]="v.type==='CAMION'">{{ v.type === 'VOITURE' ? 'Voiture' : 'Camion' }}</span>
+        <span class="badge" [ngClass]="getStatutClass(v.statut)">{{ getStatutLabel(v.statut) }}</span>
+      </div>
+      <div class="vehicule-img">
+        <span>{{ v.type === 'VOITURE' ? '🚗' : '🚛' }}</span>
+        <small>photo véhicule</small>
+      </div>
+      <div class="vehicule-info">
+        <h3>{{ v.marque }} {{ v.modele }}</h3>
+        <p class="immat">{{ v.immatriculation }}</p>
+        <p class="specs" *ngIf="v.type==='VOITURE'">
+          {{ v.typeCarburant }} · {{ v.typeBoite }} · {{ v.nbPlaces }}pl
+        </p>
+        <p class="specs" *ngIf="v.type==='CAMION'">
+          {{ v.tonnage }}T · {{ v.volume }}m³
+        </p>
+        <div class="options" *ngIf="v.options?.length">
+          <span class="option-tag" *ngFor="let o of v.options">{{ o.nom }}</span>
+        </div>
+        <div class="card-footer">
+          <span class="prix">{{ v.prixParJour }}€<small>/j</small></span>
+          <button class="btn btn-primary btn-sm" *ngIf="v.statut==='DISPONIBLE'" (click)="reserver(v)">Réserver</button>
+          <button class="btn btn-sm" style="background:rgba(255,255,255,0.1);color:var(--text-muted);cursor:not-allowed" *ngIf="v.statut!=='DISPONIBLE'">Indispo.</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL RESERVATION -->
+  <div class="modal-overlay" *ngIf="showModal" (click)="showModal=false">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Réserver — {{ selectedVehicule?.marque }} {{ selectedVehicule?.modele }}</h3>
+        <button class="close-btn" (click)="showModal=false">✕</button>
+      </div>
+      <div class="prix-info">
+        <span>Prix/jour : <strong style="color:var(--primary)">{{ selectedVehicule?.prixParJour }}€</strong></span>
+        <span>Caution : <strong>{{ selectedVehicule?.caution }}€</strong></span>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Date de début</label><input type="date" [(ngModel)]="dateDebut"></div>
+        <div class="form-group"><label>Date de fin</label><input type="date" [(ngModel)]="dateFin"></div>
+      </div>
+      <div class="info-box">ℹ️ La réservation sera soumise à validation par un administrateur. Vous serez notifié par email.</div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" (click)="showModal=false">Annuler</button>
+        <button class="btn btn-primary" (click)="confirmerReservation()">✓ Confirmer la réservation</button>
+      </div>
+    </div>
+  </div>
+</div>

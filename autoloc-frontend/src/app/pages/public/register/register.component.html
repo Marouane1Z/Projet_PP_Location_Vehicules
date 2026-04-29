@@ -1,0 +1,65 @@
+<div class="register-page">
+  <div class="register-box">
+    <div class="logo">
+      <div class="logo-icon">🚗</div>
+      <h1>Créer un compte</h1>
+      <p>Inscription client — gratuit</p>
+    </div>
+
+    <div class="form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Prénom</label>
+          <input type="text" [(ngModel)]="form.firstname" placeholder="Sophie">
+        </div>
+        <div class="form-group">
+          <label>Nom</label>
+          <input type="text" [(ngModel)]="form.lastname" placeholder="Martin">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <div class="input-wrap">
+          <span class="input-icon">✉️</span>
+          <input type="email" [(ngModel)]="form.email" placeholder="vous@exemple.fr">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Téléphone</label>
+        <div class="input-wrap">
+          <span class="input-icon">📞</span>
+          <input type="tel" [(ngModel)]="form.phone" placeholder="06 12 34 56 78">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Mot de passe</label>
+        <div class="input-wrap">
+          <span class="input-icon">🔒</span>
+          <input type="password" [(ngModel)]="form.password" placeholder="Minimum 8 caractères">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Catégorie de permis</label>
+        <select [(ngModel)]="form.categoriePermis">
+          <option *ngFor="let p of permisOptions" [value]="p.value">{{ p.label }}</option>
+        </select>
+      </div>
+
+      <div class="permis-info">
+        ℹ️ Votre permis sera vérifié automatiquement lors de chaque réservation. Un permis B ne permet pas de louer un camion.
+      </div>
+
+      <div class="error-msg" *ngIf="error">{{ error }}</div>
+
+      <button class="btn-register" (click)="register()" [disabled]="loading">
+        {{ loading ? 'Création...' : '✓ Créer mon compte' }}
+      </button>
+    </div>
+
+    <p class="login-link">Déjà un compte ? <a routerLink="/login">Se connecter</a></p>
+  </div>
+</div>

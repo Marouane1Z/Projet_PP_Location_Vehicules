@@ -1,0 +1,41 @@
+<div class="page">
+  <div class="page-header">
+    <p class="breadcrumb">/admin/reservations</p>
+    <h1>📅 Gestion des réservations</h1>
+    <p class="subtitle">{{ enAttente }} en attente de validation</p>
+  </div>
+
+  <div class="filtres">
+    <button class="filtre-btn" *ngFor="let f of filtres" [class.active]="filtre===f" (click)="filtre=f;applyFilter()">
+      {{ f === 'TOUTES' ? 'Toutes' : getStatutLabel(f) }}
+    </button>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr><th>#</th><th>CLIENT</th><th>VÉHICULE</th><th>DÉBUT</th><th>FIN</th><th>MONTANT</th><th>STATUT</th><th></th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of filtered">
+          <td style="color:var(--text-muted)">#{{ r.id }}</td>
+          <td>{{ r.clientNom }}</td>
+          <td>{{ r.vehiculeMarque }} {{ r.vehiculeModele }}</td>
+          <td>{{ r.dateDebut | date:'dd/MM/yyyy' }}</td>
+          <td>{{ r.dateFin | date:'dd/MM/yyyy' }}</td>
+          <td style="color:var(--primary);font-weight:600">{{ r.montant }}€</td>
+          <td><span class="badge" [ngClass]="getStatutClass(r.statut)">{{ getStatutLabel(r.statut) }}</span></td>
+          <td>
+            <div class="actions" *ngIf="r.statut==='EN_ATTENTE'">
+              <button class="btn btn-success btn-sm" (click)="confirmer(r)">✓ Valider</button>
+              <button class="btn btn-danger btn-sm" (click)="refuser(r)">✕ Refuser</button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="filtered.length===0">
+          <td colspan="8" style="text-align:center;color:var(--text-muted);padding:30px">Aucune réservation</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

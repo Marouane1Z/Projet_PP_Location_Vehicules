@@ -1,0 +1,34 @@
+<div class="page">
+  <div class="page-header">
+    <p class="breadcrumb">/technicien/ordres</p>
+    <h1>🔧 Mes ordres de maintenance</h1>
+  </div>
+
+  <div class="filtres">
+    <button class="filtre-btn" [class.active]="filtre==='TOUS'" (click)="setFiltre('TOUS')">Tous</button>
+    <button class="filtre-btn assigne" [class.active]="filtre==='ASSIGNE'" (click)="setFiltre('ASSIGNE')">Assigné</button>
+    <button class="filtre-btn en-cours" [class.active]="filtre==='EN_COURS'" (click)="setFiltre('EN_COURS')">En cours</button>
+    <button class="filtre-btn resolu" [class.active]="filtre==='RESOLU'" (click)="setFiltre('RESOLU')">Résolu</button>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead><tr><th>#</th><th>VÉHICULE</th><th>TYPE DE PANNE</th><th>STATUT</th><th>SIGNALÉ LE</th><th>COÛT RÉEL</th><th></th></tr></thead>
+      <tbody>
+        <tr *ngFor="let o of filtered">
+          <td style="color:var(--text-muted)">#{{ o.id }}</td>
+          <td>{{ o.vehiculeMarque }} {{ o.vehiculeModele }} ({{ o.immatriculation }})</td>
+          <td>{{ o.typeReparation }}</td>
+          <td><span class="badge" [ngClass]="getStatutClass(o.statut)">{{ getStatutLabel(o.statut) }}</span></td>
+          <td>{{ o.dateSignal | date:'dd/MM/yyyy' }}</td>
+          <td [style.color]="o.coutReparation ? 'var(--success)' : ''">{{ o.coutReparation ? o.coutReparation + '€' : '—' }}</td>
+          <td>
+            <button class="btn btn-info btn-sm" *ngIf="o.statut==='ASSIGNE'" (click)="demarrer(o)">▶ Démarrer</button>
+            <button class="btn btn-success btn-sm" *ngIf="o.statut==='EN_COURS'" (click)="cloturer(o)">✓ Clôturer</button>
+          </td>
+        </tr>
+        <tr *ngIf="filtered.length===0"><td colspan="7" style="text-align:center;color:var(--text-muted);padding:30px">Aucun ordre</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>

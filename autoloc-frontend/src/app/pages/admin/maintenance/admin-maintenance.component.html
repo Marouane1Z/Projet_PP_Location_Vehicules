@@ -1,0 +1,80 @@
+<div class="page">
+  <div class="page-header">
+    <p class="breadcrumb">/admin/maintenance</p>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h1>🔧 Gestion de la maintenance</h1>
+      <button class="btn btn-primary" (click)="showCreateModal=true">+ Créer un ordre</button>
+    </div>
+    <p class="subtitle">{{ signales + assignes + enCours }} ordres actifs</p>
+  </div>
+
+  <div class="stats-grid" style="grid-template-columns:repeat(4,1fr)">
+    <div class="stat-card"><div class="stat-info"><div class="stat-label">Signalés</div><div class="stat-value">{{ signales }}</div></div><div class="stat-icon" style="background:rgba(239,68,68,0.15)">🔧</div></div>
+    <div class="stat-card"><div class="stat-info"><div class="stat-label">Assignés</div><div class="stat-value">{{ assignes }}</div></div><div class="stat-icon" style="background:rgba(245,158,11,0.15)">🔧</div></div>
+    <div class="stat-card"><div class="stat-info"><div class="stat-label">En cours</div><div class="stat-value">{{ enCours }}</div></div><div class="stat-icon" style="background:rgba(59,130,246,0.15)">🔧</div></div>
+    <div class="stat-card"><div class="stat-info"><div class="stat-label">Résolus</div><div class="stat-value">{{ resolus }}</div></div><div class="stat-icon" style="background:rgba(34,197,94,0.15)">✅</div></div>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead><tr><th>#</th><th>VÉHICULE</th><th>TYPE DE PANNE</th><th>MÉCANICIEN</th><th>STATUT</th><th>DATE</th><th>COÛT</th><th></th></tr></thead>
+      <tbody>
+        <tr *ngFor="let o of ordres">
+          <td style="color:var(--text-muted)">#{{ o.id }}</td>
+          <td>{{ o.vehiculeMarque }} {{ o.vehiculeModele }} ({{ o.immatriculation }})</td>
+          <td>{{ o.typeReparation }}</td>
+          <td [style.color]="!o.technicienNom ? 'var(--danger)' : ''">{{ o.technicienNom || 'Non assigné' }}</td>
+          <td><span class="badge" [ngClass]="getStatutClass(o.statut)">{{ getStatutLabel(o.statut) }}</span></td>
+          <td>{{ o.dateSignal | date:'dd/MM/yyyy' }}</td>
+          <td [style.color]="o.coutReparation ? 'var(--success)' : ''">{{ o.coutReparation ? o.coutReparation + '€' : '—' }}</td>
+          <td><button class="btn btn-info btn-sm" *ngIf="o.statut==='SIGNALE'" (click)="openAssign(o)">👤 Assigner</button></td>
+        </tr>
+        <tr *ngIf="ordres.length===0"><td colspan="8" style="text-align:center;color:var(--text-muted);padding:30px">Aucun ordre</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- MODAL CRÉER ORDRE -->
+  <div class="modal-overlay" *ngIf="showCreateModal" (click)="showCreateModal=false">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header"><h3>Créer un ordre de maintenance</h3><button class="close-btn" (click)="showCreateModal=false">✕</button></div>
+      <div class="form-group"><label>Véhicule</label>
+        <select [(ngModel)]="newOrdre.vehiculeId">
+          <option value="0">Sélectionner...</option>
+          <option *ngFor="let v of vehicules" [value]="v.id">{{ v.marque }} {{ v.modele }} ({{ v.immatriculation }})</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Type de panne</label>
+        <select [(ngModel)]="newOrdre.typeReparation">
+          <option value="">Sélectionner...</option>
+          <option *ngFor="let t of typesPanne">{{ t }}</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Description</label><textarea [(ngModel)]="newOrdre.description" rows="3" placeholder="Décrivez le problème..."></textarea></div>
+      <div class="form-group"><label>Assigner à (optionnel)</label>
+        <select [(ngModel)]="newOrdre.technicienId">
+          <option value="0">Non assigné pour l'instant</option>
+          <option *ngFor="let t of techniciens" [value]="t.id">{{ t.firstname }} {{ t.lastname }}</option>
+        </select>
+      </div>
+      <div class="modal-footer"><button class="btn btn-outline" (click)="showCreateModal=false">Annuler</button><button class="btn btn-primary" (click)="creerOrdre()">🔧 Créer l'ordre</button></div>
+    </div>
+  </div>
+
+  <!-- MODAL ASSIGNER -->
+  <div class="modal-overlay" *ngIf="showAssignModal" (click)="showAssignModal=false">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header"><h3>Assigner un mécanicien</h3><button class="close-btn" (click)="showAssignModal=false">✕</button></div>
+      <div class="ordre-info">
+        <p>Véhicule : <strong>{{ selectedOrdre?.vehiculeMarque }} {{ selectedOrdre?.vehiculeModele }} ({{ selectedOrdre?.immatriculation }})</strong></p>
+        <p>Panne : <strong>{{ selectedOrdre?.typeReparation }}</strong></p>
+      </div>
+      <div class="tech-list">
+        <div class="tech-item" *ngFor="let t of techniciens" (click)="assigner(t.id)">
+          <div class="tech-avatar">{{ t.firstname[0] }}{{ t.lastname[0] }}</div>
+          <div><div class="tech-name">{{ t.firstname }} {{ t.lastname }}</div><div class="tech-status">Disponible</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -15,7 +15,7 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "id")
 public class Client extends User {
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
     @JoinColumn(name = "permis_numero", referencedColumnName = "numero")
     private PermisConduire permisConduire;
 
