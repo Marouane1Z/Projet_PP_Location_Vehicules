@@ -77,7 +77,6 @@ La répartition du travail repose sur un système de **tickets GitHub Issues**, 
 
 <img width="1757" height="727" alt="image" src="https://github.com/user-attachments/assets/ecfa0a26-5a79-4644-ab12-82c292701de8" />
 
-
 Chacun des membres de l'équipe — **Marouane**, **Saad** et **Rayane** — suivent le flux de travail suivant :
 
 1. **Création du ticket** sur `GitHub Issues` avec label et description
@@ -87,9 +86,34 @@ Chacun des membres de l'équipe — **Marouane**, **Saad** et **Rayane** — sui
 5. **Merge vers `main`** (prod) une fois validé en pré-prod
 6. **Clôture du ticket** et **suppression de la branche** dédiée pour le ticket 
 
+Cette approche garantit une traçabilité complète de chaque partie avec des **commits**, pour éviter les conflits entre développeurs et assurer un seul code validé dans la branche de production.
+
 ---
 
-> ✅ Cette approche garantit une traçabilité complète de chaque fonctionnalité, évite les conflits entre développeurs et assure que seul du code validé atteint la branche de production.
+## Conception et Modélisation
+
+Nous avons conçu les diagrammes de classes, de cas d'utilisations ainsi qu'un modèle de base de données en respectant les relations d'entités suivantes : 
+
+- **Many-to-One**
+- **One-to-One**
+- **Many-to-Many**
+
+  
+Vous pouvez y accéder au dossier de conceptions via le lien  : [Conceptions](Conceptions)
+
+Diagramme de classes : [Diagramme Classes](Conceptions/diagramme%20classes.pdf) 
+
+<img width="1028" height="840" alt="image" src="https://github.com/user-attachments/assets/8f225086-aeff-427c-be9f-9e83874222f0" />
+
+Diagramme des cas d'utilisations : [Diagramme Use Cases](Conceptions/diagramme%20use%20cases.pdf)
+
+<img width="911" height="825" alt="image" src="https://github.com/user-attachments/assets/a8c5d311-f77b-4440-9231-f76189390ec8" />
+
+Modèle de base de données :  [Modèle Base de Données](Conceptions/car_location_database.pdf) 
+
+<img width="598" height="745" alt="image" src="https://github.com/user-attachments/assets/70e9202d-792f-4e18-8cee-b8a4f8203443" />
+
+---
 
 
 
@@ -150,31 +174,6 @@ Chacun des membres de l'équipe — **Marouane**, **Saad** et **Rayane** — sui
 - | **Documentation** | Swagger UI auto-générée depuis les annotations Spring |
 
 ---
-
-## Conception et Modélisation
-
-Nous avons conçu les diagrammes de classes, de cas d'utilisations ainsi qu'un modèle de base de données en respectant les relations d'entités suivantes : 
-
-- Many-to-One
-- One-to-One
-- Many-to-Many
-
-  
-Vous pouvez y accéder au dossier de conceptions via le lien  : [Conceptions](Conceptions)
-
-Diagramme de classes : [Diagramme Classes](Conceptions/diagramme%20classes.pdf) 
-
-<img width="1028" height="840" alt="image" src="https://github.com/user-attachments/assets/8f225086-aeff-427c-be9f-9e83874222f0" />
-
-Diagramme des cas d'utilisations : [Diagramme Use Cases](Conceptions/diagramme%20use%20cases.pdf)
-
-<img width="911" height="825" alt="image" src="https://github.com/user-attachments/assets/a8c5d311-f77b-4440-9231-f76189390ec8" />
-
-Modèle de base de données :  [Modèle Base de Données](Conceptions/car_location_database.pdf) 
-
-<img width="598" height="745" alt="image" src="https://github.com/user-attachments/assets/70e9202d-792f-4e18-8cee-b8a4f8203443" />
-
-
 
 #### Hiérarchie des utilisateurs
 
