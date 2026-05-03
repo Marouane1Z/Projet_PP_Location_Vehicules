@@ -98,12 +98,12 @@ L'ensemble des données est stocké dans une base **MySQL** dont le schéma est 
 
 ### Besoins non fonctionnels
 
-| **Sécurité** | Spring Security + JWT, BCrypt pour les mots de passe, @PreAuthorize par rôle |
-| **Validation** | @Valid sur tous les DTOs entrants, contraintes CHECK en base de données |
-| **Portabilité** | Conteneurisation complète Docker Compose |
-| **Traçabilité** | Flyway pour les migrations SQL, timestamps sur toutes les entités |
-| **Maintenabilité** | Architecture en couches, séparation entité/DTO avec MapStruct |
-| **Documentation** | Swagger UI auto-générée depuis les annotations Spring |
+- | **Sécurité** | Spring Security + JWT, BCrypt pour les mots de passe, @PreAuthorize par rôle |
+- | **Validation** | @Valid sur tous les DTOs entrants, contraintes CHECK en base de données |
+- | **Portabilité** | Conteneurisation complète Docker Compose |
+- | **Traçabilité** | Flyway pour les migrations SQL, timestamps sur toutes les entités |
+- | **Maintenabilité** | Architecture en couches, séparation entité/DTO avec MapStruct |
+- | **Documentation** | Swagger UI auto-générée depuis les annotations Spring |
 
 ---
 
