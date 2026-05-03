@@ -1,9 +1,5 @@
-<p align="center">
-  <h1> Projet Module Principes de programmation </h1>
-</p>
-<p align="center">
-  <h1> Projet REST API : Application de location de véhicules </h1>
-</p>
+<h1 align="center"> Projet Module Principes de programmation </h1>
+<h1 align="center"> Projet REST API : Application de location de véhicules </h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=java" />
@@ -68,6 +64,10 @@ Le projet suit une organisation **GitFlow** structurée autour de trois environn
 | **Dev** | `feature/<ticket>` | Développement individuel par ticket |
 | **Pré-prod** | `develop` | Intégration et validation |
 | **Prod** | `main` | Version stable déployée |
+
+<img width="1741" height="805" alt="image" src="https://github.com/user-attachments/assets/c122e440-ecd7-4aa1-bcef-adfb5b6bb14a" />
+
+
 
 ---
 
