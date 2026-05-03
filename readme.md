@@ -28,14 +28,14 @@ L'application expose un ensemble d'**endpoints REST sécurisés par JWT**, conso
 
 ## Description
 
-**AutoLoc** est une plateforme de gestion interne et client pour une entreprise de location de véhicules. Elle repose sur une architecture **Spring Boot en couches** (Controller → Service → Repository) côté backend, et une interface **Angular** côté frontend.
+**AutoLoc** est une plateforme de gestion interne et client pour une entreprise de location de véhicules. Elle repose sur une architecture **Spring Boot en couches** =  **(Models → DTOs → Repository → Services → Controller)** côté backend, et une interface **Angular** côté frontend.
 
 Le système distingue quatre types d'utilisateurs aux responsabilités bien définies :
 
 - Un **client** peut parcourir le catalogue, effectuer des réservations et régler ses paiements en ligne.
 - Un **administrateur** gère le parc de véhicules, valide ou refuse les réservations, enregistre les retours et supervise les paiements.
 - Un **super administrateur** dispose des mêmes droits que l'admin, avec en plus la capacité de créer et gérer d'autres comptes administrateurs.
-- Un **mécanicien** reçoit et traite les ordres de maintenance assignés par l'admin.
+- Un **téchnicien** reçoit et traite les ordres de maintenance assignés par l'admin.
 
 L'ensemble des données est stocké dans une base **MySQL** dont le schéma est versionné avec **Flyway**, et le projet est entièrement conteneurisé avec **Docker Compose**.
 
@@ -43,11 +43,9 @@ L'ensemble des données est stocké dans une base **MySQL** dont le schéma est 
 
 ## Staff Technique
 
-| Membre |
-|---|---|---|
-| Prénom Nom | 
-| Prénom Nom | 
-| Prénom Nom |
+| Marouane ZAID | 
+| Saad Mimouni | 
+| Rayane HARKATI |
 
 ---
 
@@ -58,7 +56,7 @@ L'ensemble des données est stocké dans une base **MySQL** dont le schéma est 
 #### Authentification et gestion des comptes
 - Un visiteur peut consulter les véhicules disponibles et s'inscrire lui-même en tant que client
 - Un client et un admin peuvent se connecter via email et mot de passe — un token JWT est retourné
-- Un admin peut créer manuellement un compte client ou un compte mécanicien
+- Un admin peut créer manuellement un compte client ou un compte téchnicien
 - Seul le super administrateur peut créer un compte administrateur
 - Le compte super administrateur est initialisé automatiquement au premier démarrage de l'application — il ne peut pas être créé depuis l'interface web
 - Tout utilisateur authentifié peut modifier son profil et changer son mot de passe
@@ -87,8 +85,8 @@ L'ensemble des données est stocké dans une base **MySQL** dont le schéma est 
 - L'admin peut confirmer manuellement un paiement en espèces ou déclencher un remboursement
 
 #### Gestion de la maintenance
-- L'admin crée un ordre de maintenance et assigne un mécanicien disponible
-- Le mécanicien reçoit une notification, démarre la réparation et la clôture en renseignant le coût réel
+- L'admin crée un ordre de maintenance et assigne un technicien disponible
+- Le téchnicien reçoit une notification, démarre la réparation et la clôture en renseignant le coût réel
 - À la clôture, le véhicule repasse automatiquement en statut DISPONIBLE
 
 #### Notifications
@@ -100,14 +98,12 @@ L'ensemble des données est stocké dans une base **MySQL** dont le schéma est 
 
 ### Besoins non fonctionnels
 
-| Besoin | Solution |
-|---|---|
-| Sécurité | Spring Security + JWT, BCrypt pour les mots de passe, @PreAuthorize par rôle |
-| Validation | @Valid sur tous les DTOs entrants, contraintes CHECK en base de données |
-| Portabilité | Conteneurisation complète Docker Compose |
-| Traçabilité | Flyway pour les migrations SQL, timestamps sur toutes les entités |
-| Maintenabilité | Architecture en couches, séparation entité/DTO avec MapStruct |
-| Documentation | Swagger UI auto-générée depuis les annotations Spring |
+| **Sécurité** | Spring Security + JWT, BCrypt pour les mots de passe, @PreAuthorize par rôle |
+| **Validation** | @Valid sur tous les DTOs entrants, contraintes CHECK en base de données |
+| **Portabilité** | Conteneurisation complète Docker Compose |
+| **Traçabilité** | Flyway pour les migrations SQL, timestamps sur toutes les entités |
+| **Maintenabilité** | Architecture en couches, séparation entité/DTO avec MapStruct |
+| **Documentation** | Swagger UI auto-générée depuis les annotations Spring |
 
 ---
 
@@ -123,7 +119,7 @@ Le système identifie **4 acteurs** principaux :
 Visiteur      → Consulter véhicules, S'inscrire, Se connecter
 Client        → Réserver, Annuler, Payer, Consulter mes réservations
 Admin         → Valider/Refuser, Gérer véhicules/clients, Retour, Maintenance
-Mécanicien    → Réceptionner ordre, Démarrer réparation, Clôturer
+Téchnicien    → Réceptionner ordre, Démarrer réparation, Clôturer
 ```
 
 Relations UML notables :
@@ -428,7 +424,7 @@ develop ────────────────────────
   ├── feature/vehicules      (CRUD voitures/camions, options)
   ├── feature/reservations   (réservation, validation, retour)
   ├── feature/paiements      (paiement, facture PDF)
-  └── feature/maintenance    (ordres, mécanicien)
+  └── feature/maintenance    (ordres, téchnicien)
 ```
 
 Chaque `feature/*` fait l'objet d'une **Pull Request** sur GitHub, relue par un autre membre avant le merge sur `develop`.
