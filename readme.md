@@ -57,6 +57,8 @@ L'ensemble des données est stocké dans une base **MySQL** dont le schéma est 
 - **Base de Données** : MySQL
 - **Conteunarisation** : Docker
 
+---
+
 ## Méthode de travail
 
 Le projet suit une organisation **GitFlow** structurée autour de trois environnements distincts :
