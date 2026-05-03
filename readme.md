@@ -113,11 +113,11 @@ Nous avons conçu les diagrammes de classes, de cas d'utilisations ainsi qu'un m
 
 Vous pouvez y accéder au dossier de conceptions via le lien  : [Conceptions](Conceptions)
 
-Diagramme de classes : [Diagramme Classes](Conceptions/diagramme classes.pdf) 
+Diagramme de classes : [Diagramme Classes](Conceptions/diagramme%classes.pdf) 
 
 <img width="1028" height="840" alt="image" src="https://github.com/user-attachments/assets/8f225086-aeff-427c-be9f-9e83874222f0" />
 
-Diagramme des cas d'utilisations : [Diagramme Use Cases](Conceptions/diagramme use cases.pdf) 
+Diagramme des cas d'utilisations : [Diagramme Use Cases](Conceptions/diagramme%use%cases.pdf)
 
 <img width="911" height="825" alt="image" src="https://github.com/user-attachments/assets/a8c5d311-f77b-4440-9231-f76189390ec8" />
 
