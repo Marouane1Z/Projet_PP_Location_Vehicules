@@ -109,25 +109,16 @@ L'ensemble des données est stocké dans une base **MySQL** dont le schéma est 
 
 ## Conception et Modélisation
 
+Nous avons conçu les diagrammes de classes, de cas d'utilisations ainsi qu'un modèle de notre base de données
+
+Vous pouvez y accéder au dossier de conceptions via le lien  : [Conceptions](Conceptions)
+
+
 ### Diagramme de Cas d'Utilisations
 
 > 📎 `docs/diagrammes/use_case.png`
 
-Le système identifie **4 acteurs** principaux :
 
-```
-Visiteur      → Consulter véhicules, S'inscrire, Se connecter
-Client        → Réserver, Annuler, Payer, Consulter mes réservations
-Admin         → Valider/Refuser, Gérer véhicules/clients, Retour, Maintenance
-Téchnicien    → Réceptionner ordre, Démarrer réparation, Clôturer
-```
-
-Relations UML notables :
-- `«include»` — Réserver un véhicule **inclut** Vérifier disponibilité et Calculer montant
-- `«include»` — Valider réservation **inclut** Notifier le client
-- `«extend»` — Enregistrer retour **étend** Calculer frais de retard _(si retard constaté)_
-- `«extend»` — Annuler réservation **étend** Calculer remboursement _(si paiement déjà effectué)_
-- `«extend»` — Consulter véhicules **étend** Filtrer par type/prix _(optionnel)_
 
 ---
 
