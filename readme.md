@@ -50,12 +50,42 @@ L'ensemble des données est stocké dans une base **MySQL** dont le schéma est 
 ---
 
 ## Stack technique:
-- ** Langages de programmation ** : Java 
-- ** Framework Back ** :  Spring Boot
-- ** Framework Front ** : Angular
-- ** ORM ** : JPA
-- ** Base de Données ** : MySQL
-- ** Conteunarisation** : Docker
+- **Langages de programmation** : Java 
+- **Framework Back** :  Spring Boot
+- **Framework Front** : Angular
+- **ORM** : JPA
+- **Base de Données** : MySQL
+- **Conteunarisation** : Docker
+
+## Méthode de travail
+
+Le projet suit une organisation **GitFlow** structurée autour de trois environnements distincts :
+
+| Environnement | Branche | Rôle |
+|:---:|:---:|:---|
+| **Dev** | `feature/<ticket>` | Développement individuel par ticket |
+| **Pré-prod** | `develop` | Intégration et validation |
+| **Prod** | `main` | Version stable déployée |
+
+---
+
+### 📋 Gestion des tâches
+
+La répartition du travail repose sur un système de **tickets GitHub Issues**, chaque fonctionnalité ou correction étant tracée individuellement avec un label (`enhancement`, `bug`, etc.) et assignée à un membre de l'équipe.
+
+L'équipe est composée de trois développeurs — **Marouane**, **Saad** et **Rayane** — chacun suivant le flux de travail suivant :
+
+1. 🎫 **Création du ticket** sur GitHub Issues avec label et description
+2. 🌿 **Création d'une branche dédiée** au ticket (`feature/nom-du-ticket`)
+3. 💻 **Développement et commits** sur cette branche
+4. 🔀 **Pull Request vers `develop`** (pré-prod) pour review et validation
+5. 🚀 **Merge vers `main`** (prod) une fois validé en pré-prod
+
+---
+
+> ✅ Cette approche garantit une traçabilité complète de chaque fonctionnalité, évite les conflits entre développeurs et assure que seul du code validé atteint la branche de production.
+
+
 
 ## Analyse des Besoins
 
