@@ -53,6 +53,14 @@ L'ensemble des données est stocké dans une base **MySQL** dont le schéma est 
 - **Base de Données** : MySQL
 - **Conteunarisation** : Docker
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=java" />
+  <img src="https://img.shields.io/badge/Spring_Boot-3.x-6DB33F?style=for-the-badge&logo=springboot" />
+  <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white" />
+  <img src="https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
+  <img src="https://img.shields.io/badge/Angular-19-DD0031?style=for-the-badge&logo=angular&logoColor=white" />
+</p>
+
 ---
 
 ## Méthode de travail
@@ -66,8 +74,6 @@ Le projet suit une organisation **GitFlow** structurée autour de trois environn
 | **Prod** | `main` | Version stable déployée |
 
 <img width="1741" height="805" alt="image" src="https://github.com/user-attachments/assets/c122e440-ecd7-4aa1-bcef-adfb5b6bb14a" />
-
-
 
 ---
 
