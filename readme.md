@@ -22,13 +22,13 @@
 
 Ce projet a pour objectif de concevoir et développer une **application web complète basée sur une architecture REST API**, dédiée à la gestion d'une entreprise de location de voitures et de camions.
 
-L'application expose un ensemble d'**endpoints REST sécurisés par JWT**, consommés par un frontend React, et déployée dans des **conteneurs Docker**. Elle couvre l'intégralité du cycle métier de la location : de l'inscription du client jusqu'à la clôture du contrat, en passant par la validation des réservations, le traitement des paiements, la génération de factures PDF et le suivi de la maintenance du parc automobile.
+L'application expose un ensemble d'**endpoints REST sécurisés par JWT**, consommés par un frontend Angular, et déployée dans des **conteneurs Docker**. Elle couvre l'intégralité du cycle métier de la location : de l'inscription du client jusqu'à la clôture du contrat, en passant par la validation des réservations, le traitement des paiements, la génération de factures PDF et le suivi de la maintenance du parc automobile.
 
 ---
 
 ## Description
 
-**AutoLoc** est une plateforme de gestion interne et client pour une entreprise de location de véhicules. Elle repose sur une architecture **Spring Boot en couches** (Controller → Service → Repository) côté backend, et une interface **React** côté frontend.
+**AutoLoc** est une plateforme de gestion interne et client pour une entreprise de location de véhicules. Elle repose sur une architecture **Spring Boot en couches** (Controller → Service → Repository) côté backend, et une interface **Angular** côté frontend.
 
 Le système distingue quatre types d'utilisateurs aux responsabilités bien définies :
 
@@ -251,10 +251,10 @@ RESERVATION  }o──o{  ASSURANCE          (M:N via reservation_assurance)
 | **BDD principale** | MySQL 8 | Stockage relationnel des données |
 | **Migration BDD** | Flyway | Versioning du schéma SQL |
 | **BDD tests** | H2 | Base en mémoire pour les tests unitaires |
-| **Frontend** | React + Vite | Interface utilisateur (SPA) |
+| **Frontend** | Angular + Vite | Interface utilisateur (SPA) |
 | **HTTP Client** | Axios | Appels REST depuis le frontend |
 | **CSS** | Tailwind CSS | Stylisation de l'interface |
-| **Routing** | React Router | Navigation et routes protégées par rôle |
+| **Routing** | Angular App Routes | Navigation et routes protégées par rôle |
 | **Tests** | JUnit 5 + Mockito | Tests unitaires backend |
 | **Doc API** | Swagger / OpenAPI 3 | Documentation interactive auto-générée |
 
@@ -281,7 +281,7 @@ RESERVATION  }o──o{  ASSURANCE          (M:N via reservation_assurance)
 ```
 ┌──────────────────────────────────────────────────────────┐
 │                     CLIENT (Navigateur)                   │
-│                   React + Vite + Axios                    │
+│                   Angular + Vite + Axios                    │
 └─────────────────────────┬────────────────────────────────┘
                           │  HTTP + Bearer JWT
                           ▼
@@ -492,7 +492,7 @@ docker-compose up -d
 ```
 autoloc/
 ├── src/                        # Code source Spring Boot
-├── frontend/                   # Application React + Vite
+├── frontend/                   # Application Angular + Vite
 ├── docs/
 │   ├── diagrammes/
 │   │   ├── use_case.png
