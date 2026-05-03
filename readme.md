@@ -75,6 +75,9 @@ Le projet suit une organisation **GitFlow** structurée autour de trois environn
 
 La répartition du travail repose sur un système de **tickets GitHub Issues**, chaque fonctionnalité ou correction se trace individuellement avec un label (`enhancement`, `bug`, etc.) et assignée à un membre de l'équipe.
 
+<img width="1757" height="727" alt="image" src="https://github.com/user-attachments/assets/ecfa0a26-5a79-4644-ab12-82c292701de8" />
+
+
 Chacun des membres de l'équipe — **Marouane**, **Saad** et **Rayane** — suivent le flux de travail suivant :
 
 1. **Création du ticket** sur `GitHub Issues` avec label et description
