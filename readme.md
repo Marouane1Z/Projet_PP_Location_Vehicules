@@ -122,7 +122,7 @@ Modèle de base de données :  [Modèle Base de Données](Conceptions/car_locati
 ---
 ## Contenarisation avec Docker
 
-(Pour l'instant) pour voir la partie de **Docker_Compose**, allez sur la branche `**feature/dockerize-db**` puis : [Docker](autoloc) 
+(Pour l'instant) pour voir la partie de **Docker_Compose**, allez sur la branche **`feature/dockerize-db`** puis : [Docker](autoloc) 
 
 <img width="1158" height="650" alt="image" src="https://github.com/user-attachments/assets/423d3aac-e141-4341-8a63-5b9e4042900d" />
 
