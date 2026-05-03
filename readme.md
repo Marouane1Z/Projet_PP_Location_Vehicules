@@ -14,7 +14,7 @@
   <img src="https://img.shields.io/badge/Angular-19-DD0031?style=for-the-badge&logo=angular&logoColor=white" />
 </p>
 
-<h1 align="center">🚗 AutoLoc — Système de Gestion de Location de Véhicules</h1>
+<h1 align="center"> AutoLoc — Système de Gestion de Location de Véhicules</h1>
 
 ---
 
