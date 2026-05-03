@@ -49,6 +49,14 @@ L'ensemble des données est stocké dans une base **MySQL** dont le schéma est 
 
 ---
 
+## Stack technique:
+- ** Langages de programmation ** : Java 
+- ** Framework Back ** :  Spring Boot
+- ** Framework Front ** : Angular
+- ** ORM ** : JPA
+- ** Base de Données ** : MySQL
+- ** Conteunarisation** : Docker
+
 ## Analyse des Besoins
 
 ### Besoins fonctionnels
@@ -109,8 +117,13 @@ L'ensemble des données est stocké dans une base **MySQL** dont le schéma est 
 
 ## Conception et Modélisation
 
-Nous avons conçu les diagrammes de classes, de cas d'utilisations ainsi qu'un modèle de notre base de données
+Nous avons conçu les diagrammes de classes, de cas d'utilisations ainsi qu'un modèle de base de données en respectant les relations d'entités suivantes : 
 
+- Many-to-One
+- One-to-One
+- Many-to-Many
+
+  
 Vous pouvez y accéder au dossier de conceptions via le lien  : [Conceptions](Conceptions)
 
 Diagramme de classes : [Diagramme Classes](Conceptions/diagramme%20classes.pdf) 
@@ -126,19 +139,6 @@ Modèle de base de données :  [Modèle Base de Données](Conceptions/car_locati
 <img width="598" height="745" alt="image" src="https://github.com/user-attachments/assets/70e9202d-792f-4e18-8cee-b8a4f8203443" />
 
 
-
-
-### Diagramme de Cas d'Utilisations
-
-> 📎 `docs/diagrammes/use_case.png`
-
-
-
----
-
-### Diagramme de Classes
-
-> 📎 `docs/diagrammes/class_diagram.png`
 
 #### Hiérarchie des utilisateurs
 
