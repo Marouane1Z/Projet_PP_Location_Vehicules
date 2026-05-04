@@ -83,7 +83,7 @@ La répartition du travail repose sur un système de **tickets GitHub Issues**, 
 
 <img width="1757" height="727" alt="image" src="https://github.com/user-attachments/assets/ecfa0a26-5a79-4644-ab12-82c292701de8" />
 
-Chacun des membres de l'équipe — **Marouane**, **Saad** et **Rayane** — suivent le flux de travail suivant :
+Chacun des membres de l'équipe — **Marouane**, **Saad** et **Rayane** — suit le flux de travail suivant :
 
 1. **Création du ticket** sur `GitHub Issues` avec label et description
 2. **Création d'une branche dédiée** au ticket (`feature/nom-du-ticket`)
@@ -122,7 +122,7 @@ Modèle de base de données :  [Modèle Base de Données](Conceptions/car_locati
 ---
 ## Contenarisation avec Docker
 
-(Pour l'instant) pour voir la partie de **Docker_Compose**, allez sur la branche **`feature/dockerize-db`** puis : [Docker](autoloc) 
+(Pour l'instant) pour voir la partie de **Docker_Compose**, allez sur la branche **`feature/develop`** puis : [Docker](autoloc) 
 
 <img width="1158" height="650" alt="image" src="https://github.com/user-attachments/assets/423d3aac-e141-4341-8a63-5b9e4042900d" />
 
